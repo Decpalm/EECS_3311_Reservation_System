@@ -1,0 +1,51 @@
+@startuml
+title Strategy Pattern - Pricing Rules
+
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+
+abstract class User {
+  + getHourlyRate(): double
+}
+
+class Student
+class Faculty
+class Researcher
+class Guest
+
+class Reservation {
+  - reservationId: UUID
+  - startTime: LocalDateTime
+  - endTime: LocalDateTime
+  - hourlyRate: double
+  - depositAmount: double
+  - totalCost: double
+  - pricingStrategy: PricingStrategy
+  + setPricingStrategy(strategy: PricingStrategy): void
+  + calculateTotalCost(): void
+}
+
+interface PricingStrategy <<Strategy>> {
+  + calculateHourlyRate(user: User): double
+  + calculateDeposit(user: User, hours: double): double
+  + calculateTotal(user: User, hours: double): double
+}
+
+class StudentPricingStrategy
+class FacultyPricingStrategy
+class ResearcherPricingStrategy
+class GuestPricingStrategy
+
+User <|-- Student
+User <|-- Faculty
+User <|-- Researcher
+User <|-- Guest
+
+PricingStrategy <|.. StudentPricingStrategy
+PricingStrategy <|.. FacultyPricingStrategy
+PricingStrategy <|.. ResearcherPricingStrategy
+PricingStrategy <|.. GuestPricingStrategy
+
+Reservation --> PricingStrategy : uses
+Reservation --> User : for pricing
+@enduml
