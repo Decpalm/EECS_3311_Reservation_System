@@ -1,5 +1,5 @@
 @startuml
-title YorkU Lab Equipment Reservation Platform - Full Class Diagram (Refined)
+title YorkU Lab Equipment Reservation Platform - Full Class Diagram
 
 skinparam classAttributeIconSize 0
 skinparam shadowing false
@@ -335,38 +335,5 @@ ReservationState <|.. CancelledState
 Reservation "1" --> "1" ReservationState : currentState >
 
 }
-
-' =========================
-' NOTES / CONSTRAINTS
-' =========================
-
-note right of Equipment
-{constraint}
-equipmentId must be unique
-description must be non-empty
-labLocation must be non-empty
-end note
-
-note right of Reservation
-{constraint}
-startTime < endTime
-totalCost >= 0
-depositAmount >= 0
-each Reservation is for exactly one User
-and exactly one Equipment
-end note
-
-note right of Payment
-{constraint}
-amount > 0
-each Payment belongs to exactly one Reservation
-end note
-
-note right of ApprovalRequest
-{constraint}
-ApprovalRequest required only when
-the requesting user type or reservation
-case needs departmental approval
-end note
 
 @enduml
