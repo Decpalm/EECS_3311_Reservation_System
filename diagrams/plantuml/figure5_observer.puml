@@ -1,0 +1,50 @@
+@startuml
+title Observer Pattern - Equipment Status Updates
+
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+
+interface EquipmentObserver <<Observer>> {
+  + update(equipment: Equipment): void
+}
+
+interface EquipmentSubject {
+  + attach(observer: EquipmentObserver): void
+  + detach(observer: EquipmentObserver): void
+  + notifyObservers(): void
+}
+
+class Equipment {
+  - equipmentId: String
+  - description: String
+  - labLocation: String
+  - status: String
+  + enable(): void
+  + disable(): void
+  + markMaintenance(): void
+}
+
+class LabManagerDashboard {
+  + update(equipment: Equipment): void
+}
+
+class NotificationService {
+  + update(equipment: Equipment): void
+  + sendMaintenanceAlert(equipment: Equipment): void
+  + sendStatusAlert(equipment: Equipment): void
+}
+
+class SensorUpdate {
+  - updateId: UUID
+  - timestamp: LocalDateTime
+  - operationalStatus: String
+  - message: String
+}
+
+Equipment ..|> EquipmentSubject
+EquipmentObserver <|.. LabManagerDashboard
+EquipmentObserver <|.. NotificationService
+
+Equipment "1" --> "0..*" EquipmentObserver : notifies
+SensorUpdate --> Equipment : updates status
+@enduml
