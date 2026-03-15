@@ -1,0 +1,68 @@
+@startuml
+title Command Pattern - GUI Actions
+
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+
+interface Command <<Command>> {
+  + execute(): void
+}
+
+class ReserveEquipmentCommand {
+  - system: ReservationSystem
+  + execute(): void
+}
+
+class ModifyBookingCommand {
+  - system: ReservationSystem
+  + execute(): void
+}
+
+class CancelBookingCommand {
+  - system: ReservationSystem
+  + execute(): void
+}
+
+class ExtendBookingCommand {
+  - system: ReservationSystem
+  + execute(): void
+}
+
+class AddEquipmentCommand {
+  - system: ReservationSystem
+  + execute(): void
+}
+
+class UpdateEquipmentStatusCommand {
+  - system: ReservationSystem
+  + execute(): void
+}
+
+class GUIController {
+  + submit(command: Command): void
+}
+
+class ReservationSystem {
+  + reserveEquipment(...): Reservation
+  + modifyBooking(...): void
+  + cancelBooking(...): void
+  + extendBooking(...): void
+  + addEquipment(...): void
+  + updateEquipmentStatus(...): void
+}
+
+Command <|.. ReserveEquipmentCommand
+Command <|.. ModifyBookingCommand
+Command <|.. CancelBookingCommand
+Command <|.. ExtendBookingCommand
+Command <|.. AddEquipmentCommand
+Command <|.. UpdateEquipmentStatusCommand
+
+GUIController --> Command : triggers
+ReserveEquipmentCommand --> ReservationSystem
+ModifyBookingCommand --> ReservationSystem
+CancelBookingCommand --> ReservationSystem
+ExtendBookingCommand --> ReservationSystem
+AddEquipmentCommand --> ReservationSystem
+UpdateEquipmentStatusCommand --> ReservationSystem
+@enduml
