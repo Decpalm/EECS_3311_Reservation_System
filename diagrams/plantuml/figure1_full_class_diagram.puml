@@ -1,131 +1,35 @@
 @startuml
-title YorkU Lab Equipment Reservation Platform - Updated Class Diagram
+title YorkU Lab Equipment Reservation Platform - Full Class Diagram (Refined)
 
 skinparam classAttributeIconSize 0
 skinparam shadowing false
 skinparam linetype ortho
 
 ' =========================
-' Core Domain Model
+' PRESENTATION LAYER
 ' =========================
+package "Presentation Layer" {
 
-abstract class User {
-  - userId: UUID
-  - email: String
-  - passwordHash: String
-  - status: String
-  - idOrCertNumber: String
-  + getHourlyRate(): double
-  + isActive(): boolean
+class GUIController {
+  + submit(command: Command): void
 }
 
-class Student {
-  + getHourlyRate(): double
+class LabManagerDashboard {
+  + update(equipment: Equipment): void
 }
 
-class Faculty {
-  + getHourlyRate(): double
+class NotificationService {
+  + update(equipment: Equipment): void
+  + sendMaintenanceAlert(equipment: Equipment): void
+  + sendStatusAlert(equipment: Equipment): void
 }
 
-class Researcher {
-  + getHourlyRate(): double
 }
-
-class Guest {
-  + getHourlyRate(): double
-}
-
-class HeadLabCoordinator {
-  - coordinatorId: String
-  + autoGenerateManagerAccount(email: String): LabManager
-}
-
-class LabManager {
-  - managerId: String
-  + addEquipment(equipment: Equipment): void
-  + setEquipmentStatus(equipment: Equipment, status: String): void
-  + markMaintenance(equipment: Equipment): void
-}
-
-class Equipment {
-  - equipmentId: String
-  - description: String
-  - labLocation: String
-  - status: String
-  + enable(): void
-  + disable(): void
-  + markMaintenance(): void
-  + isAvailable(start: LocalDateTime, end: LocalDateTime): boolean
-}
-
-class Reservation {
-  - reservationId: UUID
-  - startTime: LocalDateTime
-  - endTime: LocalDateTime
-  - status: String
-  - hourlyRate: double
-  - depositAmount: double
-  - totalCost: double
-  + checkTime(): LocalDateTime[0..1]
-  + calculateTotalCost(): void
-  + modifyReservation(newStartTime: LocalDateTime, newEndTime: LocalDateTime): void
-  + cancelReservation(currentTime: LocalDateTime): boolean
-  + extendReservation(additionalMinutes: int): boolean
-  + recordArrival(arrivalTime: LocalDateTime): void
-  + isNoShow(): boolean
-  + calculateRemainingBalance(): double
-}
-
-class Payment {
-  - paymentId: UUID
-  - amount: double
-  - time: LocalDateTime
-  - method: String
-  - type: String
-  - status: String
-  + markSuccess(): void
-  + markFailed(): void
-  + refund(): void
-}
-
-class ApprovalRequest {
-  - requestId: UUID
-  - submittedAt: LocalDateTime
-  - status: String
-  + approve(): void
-  + reject(): void
-}
-
-class DepartmentApprover {
-  - approverId: String
-  + review(request: ApprovalRequest, decision: String): void
-}
-
-class SensorUpdate {
-  - updateId: UUID
-  - timestamp: LocalDateTime
-  - operationalStatus: String
-  - message: String
-}
-
-User <|-- Student
-User <|-- Faculty
-User <|-- Researcher
-User <|-- Guest
-
-User <|-- HeadLabCoordinator
-User <|-- LabManager
-
-User "1" --> "0..*" Reservation : makes
-Equipment "1" --> "0..*" Reservation : reserved for
-Reservation "1" *-- "1..*" Payment : contains
-User "1" --> "0..1" ApprovalRequest : submits
-DepartmentApprover "1" --> "0..*" ApprovalRequest : reviews
-Equipment "1" *-- "1..*" SensorUpdate : receives
 
 ' =========================
-' Singleton Pattern
+' APPLICATION LAYER
 ' =========================
+package "Application Layer" {
 
 class ReservationSystem <<Singleton>> {
   - instance: ReservationSystem
@@ -150,13 +54,8 @@ class CSVDataStore <<Singleton>> {
   + loadUsers(): List<User>
   + loadReservations(): List<Reservation>
   + loadEquipment(): List<Equipment>
+  + loadPayments(): List<Payment>
 }
-
-ReservationSystem --> CSVDataStore : uses
-
-' =========================
-' Factory Pattern
-' =========================
 
 class AccountFactory <<Factory>> {
   + createUser(type: String, email: String, passwordHash: String, idOrCertNumber: String): User
@@ -164,91 +63,8 @@ class AccountFactory <<Factory>> {
 }
 
 class EquipmentFactory <<Factory>> {
-  + createEquipment(description: String, labLocation: String): Equipment
+  + createEquipment(equipmentId: String, description: String, labLocation: String): Equipment
 }
-
-ReservationSystem --> AccountFactory : uses
-ReservationSystem --> EquipmentFactory : uses
-AccountFactory ..> User : creates
-EquipmentFactory ..> Equipment : creates
-
-' =========================
-' Strategy Pattern
-' =========================
-
-interface PricingStrategy <<Strategy>> {
-  + calculateHourlyRate(user: User): double
-  + calculateDeposit(user: User, hours: double): double
-  + calculateTotal(user: User, hours: double): double
-}
-
-class StudentPricingStrategy {
-  + calculateHourlyRate(user: User): double
-  + calculateDeposit(user: User, hours: double): double
-  + calculateTotal(user: User, hours: double): double
-}
-
-class FacultyPricingStrategy {
-  + calculateHourlyRate(user: User): double
-  + calculateDeposit(user: User, hours: double): double
-  + calculateTotal(user: User, hours: double): double
-}
-
-class ResearcherPricingStrategy {
-  + calculateHourlyRate(user: User): double
-  + calculateDeposit(user: User, hours: double): double
-  + calculateTotal(user: User, hours: double): double
-}
-
-class GuestPricingStrategy {
-  + calculateHourlyRate(user: User): double
-  + calculateDeposit(user: User, hours: double): double
-  + calculateTotal(user: User, hours: double): double
-}
-
-PricingStrategy <|.. StudentPricingStrategy
-PricingStrategy <|.. FacultyPricingStrategy
-PricingStrategy <|.. ResearcherPricingStrategy
-PricingStrategy <|.. GuestPricingStrategy
-
-Reservation --> PricingStrategy : uses
-ReservationSystem --> PricingStrategy : selects
-
-' =========================
-' Observer Pattern
-' =========================
-
-interface EquipmentObserver <<Observer>> {
-  + update(equipment: Equipment): void
-}
-
-interface EquipmentSubject {
-  + attach(observer: EquipmentObserver): void
-  + detach(observer: EquipmentObserver): void
-  + notifyObservers(): void
-}
-
-Equipment ..|> EquipmentSubject
-
-class LabManagerDashboard {
-  + update(equipment: Equipment): void
-}
-
-class NotificationService {
-  + update(equipment: Equipment): void
-  + sendMaintenanceAlert(equipment: Equipment): void
-  + sendStatusAlert(equipment: Equipment): void
-}
-
-EquipmentObserver <|.. LabManagerDashboard
-EquipmentObserver <|.. NotificationService
-
-Equipment "1" --> "0..*" EquipmentObserver : notifies
-SensorUpdate --> Equipment : updates status
-
-' =========================
-' Command Pattern
-' =========================
 
 interface Command <<Command>> {
   + execute(): void
@@ -284,10 +100,6 @@ class UpdateEquipmentStatusCommand {
   + execute(): void
 }
 
-class GUIController {
-  + submit(command: Command): void
-}
-
 Command <|.. ReserveEquipmentCommand
 Command <|.. ModifyBookingCommand
 Command <|.. CancelBookingCommand
@@ -295,17 +107,198 @@ Command <|.. ExtendBookingCommand
 Command <|.. AddEquipmentCommand
 Command <|.. UpdateEquipmentStatusCommand
 
-GUIController --> Command : triggers
-ReserveEquipmentCommand --> ReservationSystem
-ModifyBookingCommand --> ReservationSystem
-CancelBookingCommand --> ReservationSystem
-ExtendBookingCommand --> ReservationSystem
-AddEquipmentCommand --> ReservationSystem
-UpdateEquipmentStatusCommand --> ReservationSystem
+GUIController "1" --> "0..*" Command : submits >
+ReserveEquipmentCommand --> ReservationSystem : receiver
+ModifyBookingCommand --> ReservationSystem : receiver
+CancelBookingCommand --> ReservationSystem : receiver
+ExtendBookingCommand --> ReservationSystem : receiver
+AddEquipmentCommand --> ReservationSystem : receiver
+UpdateEquipmentStatusCommand --> ReservationSystem : receiver
+
+ReservationSystem "1" --> "1" CSVDataStore : persists via >
+ReservationSystem "1" --> "1" AccountFactory : uses >
+ReservationSystem "1" --> "1" EquipmentFactory : uses >
+
+}
 
 ' =========================
-' State Pattern
+' DOMAIN MODEL
 ' =========================
+package "Domain Model" {
+
+abstract class User {
+  - userId: UUID
+  - email: String
+  - passwordHash: String
+  - status: String
+  - idOrCertNumber: String
+  + getHourlyRate(): double
+  + isActive(): boolean
+}
+
+class Student {
+  + getHourlyRate(): double
+}
+
+class Faculty {
+  + getHourlyRate(): double
+}
+
+class Researcher {
+  + getHourlyRate(): double
+}
+
+class Guest {
+  + getHourlyRate(): double
+}
+
+class HeadLabCoordinator {
+  - coordinatorId: String
+  + autoGenerateManagerAccount(email: String): LabManager
+}
+
+class LabManager {
+  - managerId: String
+  + addEquipment(equipment: Equipment): void
+  + setEquipmentStatus(equipment: Equipment): void
+  + markMaintenance(equipment: Equipment): void
+}
+
+class Equipment {
+  - equipmentId: String
+  - description: String
+  - labLocation: String
+  - status: String
+  + isAvailable(start: LocalDateTime, end: LocalDateTime): boolean
+  + enable(): void
+  + disable(): void
+  + markMaintenance(): void
+}
+
+class Reservation {
+  - reservationId: UUID
+  - startTime: LocalDateTime
+  - endTime: LocalDateTime
+  - status: String
+  - hourlyRate: double
+  - depositAmount: double
+  - totalCost: double
+  + calculateTotalCost(): double
+  + modifyReservation(newStart: LocalDateTime, newEnd: LocalDateTime): void
+  + cancelReservation(currentTime: LocalDateTime): boolean
+  + extendReservation(additionalMinutes: int): boolean
+  + calculateRemainingBalance(): double
+}
+
+class Payment {
+  - paymentId: UUID
+  - amount: double
+  - method: String
+  - type: String
+  - status: String
+  - timestamp: LocalDateTime
+  + markSuccess(): void
+  + markFailed(): void
+  + refund(): void
+}
+
+class ApprovalRequest {
+  - requestId: UUID
+  - submittedAt: LocalDateTime
+  - status: String
+  + approve(): void
+  + reject(): void
+}
+
+class DepartmentApprover {
+  - approverId: String
+  + review(request: ApprovalRequest, decision: String): void
+}
+
+class SensorUpdate {
+  - updateId: UUID
+  - timestamp: LocalDateTime
+  - operationalStatus: String
+  - message: String
+}
+
+User <|-- Student
+User <|-- Faculty
+User <|-- Researcher
+User <|-- Guest
+User <|-- HeadLabCoordinator
+User <|-- LabManager
+
+User "1" --> "0..*" Reservation : places >
+Equipment "1" <-- "0..*" Reservation : reserves <
+Reservation "1" *-- "1..*" Payment : contains >
+User "1" --> "0..*" ApprovalRequest : submits >
+DepartmentApprover "1" --> "0..*" ApprovalRequest : reviews >
+Equipment "1" *-- "0..*" SensorUpdate : receives >
+
+LabManager "1" --> "0..*" Equipment : manages >
+HeadLabCoordinator "1" --> "0..*" LabManager : creates >
+Reservation "1" --> "1" User : reservedBy >
+Reservation "1" --> "1" Equipment : for >
+ApprovalRequest "1" --> "1" User : requestedBy >
+ApprovalRequest "0..1" --> "1" DepartmentApprover : approvedBy >
+
+}
+
+' =========================
+' STRATEGY
+' =========================
+package "Pricing Strategy" {
+
+interface PricingStrategy <<Strategy>> {
+  + calculateHourlyRate(user: User): double
+  + calculateDeposit(user: User, hours: double): double
+  + calculateTotal(user: User, hours: double): double
+}
+
+class StudentPricingStrategy
+class FacultyPricingStrategy
+class ResearcherPricingStrategy
+class GuestPricingStrategy
+
+PricingStrategy <|.. StudentPricingStrategy
+PricingStrategy <|.. FacultyPricingStrategy
+PricingStrategy <|.. ResearcherPricingStrategy
+PricingStrategy <|.. GuestPricingStrategy
+
+Reservation "1" --> "1" PricingStrategy : pricingRule >
+
+}
+
+' =========================
+' OBSERVER
+' =========================
+package "Observer Pattern" {
+
+interface EquipmentObserver <<Observer>> {
+  + update(equipment: Equipment): void
+}
+
+interface EquipmentSubject {
+  + attach(observer: EquipmentObserver): void
+  + detach(observer: EquipmentObserver): void
+  + notifyObservers(): void
+}
+
+Equipment ..|> EquipmentSubject
+LabManagerDashboard ..|> EquipmentObserver
+NotificationService ..|> EquipmentObserver
+
+Equipment "1" --> "0..*" EquipmentObserver : notifies >
+
+SensorUpdate --> Equipment : triggers status update >
+
+}
+
+' =========================
+' STATE
+' =========================
+package "State Pattern" {
 
 interface EquipmentState <<State>> {
   + enable(equipment: Equipment): void
@@ -321,7 +314,7 @@ EquipmentState <|.. AvailableState
 EquipmentState <|.. DisabledState
 EquipmentState <|.. MaintenanceState
 
-Equipment --> EquipmentState : currentState
+Equipment "1" --> "1" EquipmentState : currentState >
 
 interface ReservationState <<State>> {
   + modify(reservation: Reservation): void
@@ -339,6 +332,41 @@ ReservationState <|.. ConfirmedState
 ReservationState <|.. ExtendedState
 ReservationState <|.. CancelledState
 
-Reservation --> ReservationState : currentState
+Reservation "1" --> "1" ReservationState : currentState >
+
+}
+
+' =========================
+' NOTES / CONSTRAINTS
+' =========================
+
+note right of Equipment
+{constraint}
+equipmentId must be unique
+description must be non-empty
+labLocation must be non-empty
+end note
+
+note right of Reservation
+{constraint}
+startTime < endTime
+totalCost >= 0
+depositAmount >= 0
+each Reservation is for exactly one User
+and exactly one Equipment
+end note
+
+note right of Payment
+{constraint}
+amount > 0
+each Payment belongs to exactly one Reservation
+end note
+
+note right of ApprovalRequest
+{constraint}
+ApprovalRequest required only when
+the requesting user type or reservation
+case needs departmental approval
+end note
 
 @enduml
