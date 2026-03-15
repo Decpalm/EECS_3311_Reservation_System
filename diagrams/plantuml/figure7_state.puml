@@ -1,0 +1,58 @@
+@startuml
+title State Pattern - Equipment and Reservation States
+
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+
+interface EquipmentState <<State>> {
+  + enable(equipment: Equipment): void
+  + disable(equipment: Equipment): void
+  + markMaintenance(equipment: Equipment): void
+}
+
+class AvailableState
+class DisabledState
+class MaintenanceState
+
+class Equipment {
+  - equipmentId: String
+  - status: String
+  - currentState: EquipmentState
+  + setState(state: EquipmentState): void
+  + enable(): void
+  + disable(): void
+  + markMaintenance(): void
+}
+
+EquipmentState <|.. AvailableState
+EquipmentState <|.. DisabledState
+EquipmentState <|.. MaintenanceState
+Equipment --> EquipmentState : currentState
+
+interface ReservationState <<State>> {
+  + modify(reservation: Reservation): void
+  + cancel(reservation: Reservation): void
+  + extend(reservation: Reservation): void
+}
+
+class PendingState
+class ConfirmedState
+class ExtendedState
+class CancelledState
+
+class Reservation {
+  - reservationId: UUID
+  - status: String
+  - currentState: ReservationState
+  + setState(state: ReservationState): void
+  + modifyReservation(...): void
+  + cancelReservation(...): boolean
+  + extendReservation(...): boolean
+}
+
+ReservationState <|.. PendingState
+ReservationState <|.. ConfirmedState
+ReservationState <|.. ExtendedState
+ReservationState <|.. CancelledState
+Reservation --> ReservationState : currentState
+@enduml
