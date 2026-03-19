@@ -23,8 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import app.ReservationSystem;
-
 public class CSVDataStore {
     private static CSVDataStore instance;
 
@@ -46,6 +44,7 @@ public class CSVDataStore {
         this.loadUsersFromCSV();
         this.loadEquipmentFromCSV();
         this.loadReservationsFromCSV();
+        this.loadPaymentssFromCSV();
     }
 
     public static CSVDataStore getInstance() {
@@ -306,6 +305,28 @@ public class CSVDataStore {
             }
         } catch (IOException e) {
             System.out.println("Error writing payments CSV: " + e.getMessage());
+        }
+    }
+    
+    private void loadPaymentssFromCSV() {
+    	String line;
+    	String[] data;
+    	try (BufferedReader reader = new BufferedReader(new FileReader(paymentsFile))) {
+    		while ((line = reader.readLine()) != null) {
+    			if (line.equals("paymentId,amount,method,status,timestamp")) {
+    				
+    			}
+    			else {
+    				data = line.split(",");
+    				Payment payment = new Payment(Double.parseDouble(data[1]), data[2]);
+    				payment.setPaymentId(UUID.fromString(data[0]));
+    				payment.setStatus(data[3]);
+    				payment.setTimestamp(LocalDateTime.parse(data[4]));
+    				this.payments.add(payment);
+    			}
+    		}
+    	} catch (IOException e) {
+    		System.out.println("Error writing users CSV: " + e.getMessage());
         }
     }
 }

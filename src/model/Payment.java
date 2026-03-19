@@ -37,6 +37,18 @@ public class Payment {
     public LocalDateTime getTimestamp() {
         return timestamp;
     }
+    
+    public void setPaymentId(UUID paymentId) {
+        this.paymentId = paymentId;
+    }
+    
+    public void setStatus(String status) {
+    	this.status = status;
+    }
+    
+    public void setTimestamp(LocalDateTime timestamp) {
+    	this.timestamp = timestamp;
+    }
 
     public void setAmount(double amount) {
         this.amount = amount;
