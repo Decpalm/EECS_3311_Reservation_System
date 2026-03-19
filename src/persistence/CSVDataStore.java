@@ -4,7 +4,12 @@ import model.Equipment;
 import model.Payment;
 import model.Reservation;
 import model.User;
-
+import state.*;
+import strategy.FacultyPricingStrategy;
+import strategy.GuestPricingStrategy;
+import strategy.PricingStrategy;
+import strategy.ResearcherPricingStrategy;
+import strategy.StudentPricingStrategy;
 import factory.*;
 
 import java.io.BufferedWriter;
@@ -13,9 +18,12 @@ import java.io.FileWriter;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import app.ReservationSystem;
 
 public class CSVDataStore {
     private static CSVDataStore instance;
@@ -37,6 +45,7 @@ public class CSVDataStore {
         payments = new ArrayList<>();
         this.loadUsersFromCSV();
         this.loadEquipmentFromCSV();
+        this.loadReservationsFromCSV();
     }
 
     public static CSVDataStore getInstance() {
@@ -207,6 +216,78 @@ public class CSVDataStore {
             }
         } catch (IOException e) {
             System.out.println("Error writing reservations CSV: " + e.getMessage());
+        }
+    }
+    
+    private void loadReservationsFromCSV() {
+    	String line;
+    	String[] data;
+    	try (BufferedReader reader = new BufferedReader(new FileReader(reservationsFile))) {
+    		while ((line = reader.readLine()) != null) {
+    			if (line.equals("reservationId,userId,equipmentId,startTime,endTime,status,hourlyRate,depositAmount,totalCost")) {
+    				
+    			}
+    			else {
+    				data = line.split(",");
+    				User user = this.findUserByUserId(UUID.fromString(data[1]));
+    				Equipment equipment = this.findEquipmentById(data[2]);
+    				PricingStrategy strategy = getPricingStrategyForUser(user);
+    				Reservation reservation = new Reservation(user, equipment, LocalDateTime.parse(data[3]), LocalDateTime.parse(data[4]), strategy);
+    				
+    				reservation.setReservationId(UUID.fromString(data[0]));
+    				reservation.setState(this.findStateByStatus(data[5]));
+    				this.reservations.add(reservation);
+    			}
+    		}
+    	} catch (IOException e) {
+    		System.out.println("Error writing users CSV: " + e.getMessage());
+        }
+    }
+    
+    private User findUserByUserId(UUID userId) {
+        for (User user : this.users) {
+            if (user.getUserId().equals(userId)) {
+                return user;
+            }
+        }
+        return null;
+    }
+    
+    private ReservationState findStateByStatus(String status) {
+    	ReservationState state = null;
+    	switch(status) {
+    	case "Cancelled":
+    		state = new CancelledState();
+    		break;
+    	case "Confirmed":
+    		state = new ConfirmedState();
+    		break;
+    	case "Extended":
+    		state = new ExtendedState();
+    		break;
+    	case "Pending":
+    		state = new PendingState();
+    		break;
+    	default:
+    		state = new PendingState();
+    		break;
+    	}
+    	
+    	return state;
+    }
+    
+    private PricingStrategy getPricingStrategyForUser(User user) {
+        switch (user.getRole().toLowerCase()) {
+            case "student":
+                return new StudentPricingStrategy();
+            case "faculty":
+                return new FacultyPricingStrategy();
+            case "researcher":
+                return new ResearcherPricingStrategy();
+            case "guest":
+                return new GuestPricingStrategy();
+            default:
+                throw new IllegalArgumentException("No pricing strategy found for role: " + user.getRole());
         }
     }
 

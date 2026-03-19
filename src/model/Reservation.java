@@ -83,6 +83,10 @@ public class Reservation {
     public Payment getPayment() {
         return payment;
     }
+    
+    public void setReservationId(UUID reservationId) {
+        this.reservationId = reservationId;
+    }
 
     public void setPricingStrategy(PricingStrategy pricingStrategy) {
         this.pricingStrategy = pricingStrategy;
