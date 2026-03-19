@@ -170,7 +170,7 @@ public class CSVDataStore {
     private void loadEquipmentFromCSV() {
     	String line;
     	String[] data;
-    	try (BufferedReader reader = new BufferedReader(new FileReader(usersFile))) {
+    	try (BufferedReader reader = new BufferedReader(new FileReader(equipmentFile))) {
     		while ((line = reader.readLine()) != null) {
     			if (line.equals("equipmentId,description,labLocation,status")) {
     				
@@ -179,7 +179,7 @@ public class CSVDataStore {
     				data = line.split(",");
     				new EquipmentFactory();
     				Equipment equipment = EquipmentFactory.createEquipment(data[0], data[1], data[2]);
-    				equipment.setStatus(data[4]);
+    				equipment.setStatus(data[3]);
     				this.equipmentList.add(equipment);
     			}
     		}

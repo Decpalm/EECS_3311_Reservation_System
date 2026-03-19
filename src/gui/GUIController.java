@@ -93,7 +93,7 @@ public class GUIController {
         }
         return null;
     }
-
+   
     public void attachDefaultObserversToEquipment(Equipment equipment) {
         equipment.attach(new NotificationService());
         equipment.attach(new LabManagerDashboard());
