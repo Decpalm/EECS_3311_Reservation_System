@@ -5,11 +5,17 @@ import model.Payment;
 import model.Reservation;
 import model.User;
 
+import factory.AccountFactory;
+
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class CSVDataStore {
     private static CSVDataStore instance;
@@ -29,6 +35,7 @@ public class CSVDataStore {
         equipmentList = new ArrayList<>();
         reservations = new ArrayList<>();
         payments = new ArrayList<>();
+        this.loadUsersFromCSV();
     }
 
     public static CSVDataStore getInstance() {
@@ -117,6 +124,28 @@ public class CSVDataStore {
             }
         } catch (IOException e) {
             System.out.println("Error writing users CSV: " + e.getMessage());
+        }
+    }
+    
+    private void loadUsersFromCSV() {
+    	String line;
+    	String[] data;
+    	try (BufferedReader reader = new BufferedReader(new FileReader(usersFile))) {
+    		while ((line = reader.readLine()) != null) {
+    			if (line.equals("userId,email,passwordHash,status,idOrCertNumber,role")) {
+    				
+    			}
+    			else {
+    				data = line.split(",");
+    				new AccountFactory();
+					User user = AccountFactory.createUser(data[5], data[1], data[2], data[4]);
+    				user.setStatus(data[3]);
+    				user.setUserId(UUID.fromString(data[0]));
+    				this.users.add(user);
+    			}
+    		}
+    	} catch (IOException e) {
+    		System.out.println("Error writing users CSV: " + e.getMessage());
         }
     }
 

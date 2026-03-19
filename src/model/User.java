@@ -42,6 +42,10 @@ public abstract class User {
     public boolean isActive() {
         return active;
     }
+    
+    public void setUserId(UUID userId) {
+        this.userId = userId;
+    }
 
     public void setEmail(String email) {
         this.email = email;
