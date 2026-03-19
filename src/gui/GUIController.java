@@ -30,8 +30,8 @@ public class GUIController {
         return reservationSystem.registerUser(role, email, passwordHash, idOrCertNumber);
     }
 
-    public void addEquipment(String equipmentId, String description, String labLocation) {
-        Command command = new AddEquipmentCommand(reservationSystem, equipmentId, description, labLocation);
+    public void addEquipment(User user, String equipmentId, String description, String labLocation) {
+        Command command = new AddEquipmentCommand(reservationSystem, user, equipmentId, description, labLocation);
         command.execute();
     }
 
@@ -59,14 +59,14 @@ public class GUIController {
         return reservationSystem.processPayment(reservationId, amount, method);
     }
 
-    public void updateEquipmentStatus(String equipmentId, String newStatus) {
-        Command command = new UpdateEquipmentStatusCommand(reservationSystem, equipmentId, newStatus);
+    public void updateEquipmentStatus(User user, String equipmentId, String newStatus) {
+        Command command = new UpdateEquipmentStatusCommand(reservationSystem, user, equipmentId, newStatus);
         command.execute();
     }
 
-    public void applySensorUpdate(String equipmentId, String operationalStatus, String message) {
+    public void applySensorUpdate(User user, String equipmentId, String operationalStatus, String message) {
         SensorUpdate update = new SensorUpdate(operationalStatus, message);
-        reservationSystem.applySensorUpdate(equipmentId, update);
+        reservationSystem.applySensorUpdate(user, equipmentId, update);
     }
 
     public List<User> getAllUsers() {

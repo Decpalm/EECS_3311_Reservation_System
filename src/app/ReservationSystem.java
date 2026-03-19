@@ -46,9 +46,12 @@ public class ReservationSystem {
         return user;
     }
 
-    public Equipment addEquipment(String equipmentId, String description, String labLocation) {
+    public Equipment addEquipment(User user, String equipmentId, String description, String labLocation) {
         if (dataStore.findEquipmentById(equipmentId) != null) {
             throw new IllegalArgumentException("Equipment with this ID already exists.");
+        }
+        if (!user.getRole().equals("LabManager")) {
+        	throw new IllegalArgumentException("Only Lab Managers may add new equipment.");
         }
 
         Equipment equipment = EquipmentFactory.createEquipment(equipmentId, description, labLocation);
@@ -123,11 +126,15 @@ public class ReservationSystem {
         return payment;
     }
 
-    public void updateEquipmentStatus(String equipmentId, String newStatus) {
+    public void updateEquipmentStatus(User user, String equipmentId, String newStatus) {
         Equipment equipment = dataStore.findEquipmentById(equipmentId);
 
         if (equipment == null) {
             throw new IllegalArgumentException("Equipment not found.");
+        }
+        
+        if (!user.getRole().equals("LabManager")) {
+        	throw new IllegalArgumentException("Only Lab Managers may update equipment status.");
         }
 
         switch (newStatus.trim().toLowerCase()) {
@@ -145,11 +152,15 @@ public class ReservationSystem {
         }
     }
 
-    public void applySensorUpdate(String equipmentId, SensorUpdate update) {
+    public void applySensorUpdate(User user, String equipmentId, SensorUpdate update) {
         Equipment equipment = dataStore.findEquipmentById(equipmentId);
 
         if (equipment == null) {
             throw new IllegalArgumentException("Equipment not found.");
+        }
+        
+        if (!user.getRole().equals("LabManager")) {
+        	throw new IllegalArgumentException("Only Lab Managers may update sensor status.");
         }
 
         equipment.applySensorUpdate(update);

@@ -11,7 +11,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class MainFrame extends JFrame {
-    private GUIController controller;
+	private static final long serialVersionUID = 1L;
+	private GUIController controller;
     private JTextArea outputArea;
 
     public MainFrame() {
@@ -92,10 +93,13 @@ public class MainFrame extends JFrame {
     }
 
     private JPanel createAddEquipmentPanel() {
-        JPanel panel = new JPanel(new GridLayout(4, 2, 10, 10));
+        JPanel panel = new JPanel(new GridLayout(5, 2, 10, 10));
 
-        JLabel idLabel = new JLabel("Equipment ID:");
-        JTextField idField = new JTextField();
+        JLabel managerEmailLabel = new JLabel("Lab Manager Email:");
+        JTextField managerEmailField = new JTextField();
+        
+        JLabel equipmentIdLabel = new JLabel("Equipment ID:");
+        JTextField equipmentIdField = new JTextField();
 
         JLabel descLabel = new JLabel("Description:");
         JTextField descField = new JTextField();
@@ -107,15 +111,20 @@ public class MainFrame extends JFrame {
 
         addButton.addActionListener(e -> {
             try {
+            	User user = controller.findUserByEmail(managerEmailField.getText().trim());
+                if (user == null) {
+                    throw new IllegalArgumentException("User not found.");
+                }
                 controller.addEquipment(
-                        idField.getText().trim(),
+                		user,
+                		equipmentIdField.getText().trim(),
                         descField.getText().trim(),
                         locationField.getText().trim()
                 );
 
                 Equipment equipment = controller.getAllEquipment()
                         .stream()
-                        .filter(eq -> eq.getEquipmentId().equalsIgnoreCase(idField.getText().trim()))
+                        .filter(eq -> eq.getEquipmentId().equalsIgnoreCase(equipmentIdField.getText().trim()))
                         .findFirst()
                         .orElse(null);
 
@@ -124,7 +133,7 @@ public class MainFrame extends JFrame {
                 }
 
                 outputArea.append("Equipment added successfully.\n");
-                idField.setText("");
+                equipmentIdField.setText("");
                 descField.setText("");
                 locationField.setText("");
             } catch (Exception ex) {
@@ -133,8 +142,10 @@ public class MainFrame extends JFrame {
         });
 
         panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        panel.add(idLabel);
-        panel.add(idField);
+        panel.add(managerEmailLabel);
+        panel.add(managerEmailField);
+        panel.add(equipmentIdLabel);
+        panel.add(equipmentIdField);
         panel.add(descLabel);
         panel.add(descField);
         panel.add(locationLabel);
@@ -315,7 +326,10 @@ public class MainFrame extends JFrame {
     }
 
     private JPanel createEquipmentStatusPanel() {
-        JPanel panel = new JPanel(new GridLayout(6, 2, 10, 10));
+        JPanel panel = new JPanel(new GridLayout(7, 2, 10, 10));
+        
+        JLabel managerEmailLabel = new JLabel("Lab Manager Email:");
+        JTextField managerEmailField = new JTextField();
 
         JLabel equipmentIdLabel = new JLabel("Equipment ID:");
         JTextField equipmentIdField = new JTextField();
@@ -335,7 +349,13 @@ public class MainFrame extends JFrame {
 
         updateStatusButton.addActionListener(e -> {
             try {
+            	User user = controller.findUserByEmail(managerEmailField.getText().trim());
+                if (user == null) {
+                    throw new IllegalArgumentException("User not found.");
+                }
+                
                 controller.updateEquipmentStatus(
+                		user, 
                         equipmentIdField.getText().trim(),
                         (String) statusBox.getSelectedItem()
                 );
@@ -347,7 +367,12 @@ public class MainFrame extends JFrame {
 
         applySensorButton.addActionListener(e -> {
             try {
+            	User user = controller.findUserByEmail(managerEmailField.getText().trim());
+                if (user == null) {
+                    throw new IllegalArgumentException("User not found.");
+                }
                 controller.applySensorUpdate(
+                		user, 
                         equipmentIdField.getText().trim(),
                         (String) sensorStatusBox.getSelectedItem(),
                         sensorMessageField.getText().trim()
@@ -359,6 +384,8 @@ public class MainFrame extends JFrame {
         });
 
         panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        panel.add(managerEmailLabel);
+        panel.add(managerEmailField);
         panel.add(equipmentIdLabel);
         panel.add(equipmentIdField);
         panel.add(statusLabel);

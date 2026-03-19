@@ -98,6 +98,15 @@ public class CSVDataStore {
         }
         return null;
     }
+    
+    public User findUserById(String userId) {
+        for (User user : users) {
+            if (user.getUserId().equals(UUID.fromString(userId))) {
+                return user;
+            }
+        }
+        return null;
+    }
 
     public Equipment findEquipmentById(String equipmentId) {
         for (Equipment equipment : equipmentList) {
