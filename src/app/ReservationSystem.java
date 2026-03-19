@@ -36,6 +36,10 @@ public class ReservationSystem {
         if (dataStore.findUserByEmail(email) != null) {
             throw new IllegalArgumentException("A user with this email already exists.");
         }
+        
+        if(!passwordHash.matches("^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{8}$") ){
+        	throw new IllegalArgumentException("Password is too weak. Please include at least one uppercase letter, lowercase letter, number, and special character.");
+        }
 
         User user = AccountFactory.createUser(role, email, passwordHash, idOrCertNumber);
         dataStore.saveUser(user);
