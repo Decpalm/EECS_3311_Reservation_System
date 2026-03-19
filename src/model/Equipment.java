@@ -2,6 +2,7 @@ package model;
 
 import observer.EquipmentObserver;
 import observer.EquipmentSubject;
+import persistence.CSVDataStore;
 import state.AvailableState;
 import state.DisabledState;
 import state.EquipmentState;
@@ -84,7 +85,20 @@ public class Equipment implements EquipmentSubject {
         notifyObservers();
     }
 
-    public boolean isAvailable(LocalDateTime start, LocalDateTime end) {
+    public boolean isAvailable(LocalDateTime start, LocalDateTime end, String equipmentId) {
+    	CSVDataStore data = CSVDataStore.getInstance();
+    	List<Reservation> reservations = data.getReservations();
+    	
+    	for(Reservation reservation : reservations) {
+    		if( 	((( start.isAfter(reservation.getStartTime()) || start.equals(reservation.getStartTime())) && (start.isBefore(reservation.getEndTime()) || start.equals(reservation.getEndTime())) ) || 
+    				(( end.isAfter(reservation.getStartTime()) 	|| end.equals(reservation.getStartTime())) 	 && (end.isBefore(reservation.getEndTime())   || end.equals(reservation.getEndTime())) )   ||
+    				(start.isBefore(reservation.getStartTime()) && end.isAfter(reservation.getEndTime())) ) && 
+    				equipmentId.equals(reservation.getEquipment().getEquipmentId())
+    				){
+    			return false;
+    		}
+    	}
+    	
         return currentState instanceof AvailableState;
     }
 

@@ -64,7 +64,7 @@ public class ReservationSystem {
             throw new IllegalArgumentException("Equipment not found.");
         }
 
-        if (!equipment.isAvailable(startTime, endTime)) {
+        if (!equipment.isAvailable(startTime, endTime, equipmentId)) {
             throw new IllegalArgumentException("Equipment is not available for reservation.");
         }
 
