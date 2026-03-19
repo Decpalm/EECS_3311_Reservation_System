@@ -5,7 +5,7 @@ import model.Payment;
 import model.Reservation;
 import model.User;
 
-import factory.AccountFactory;
+import factory.*;
 
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
@@ -36,6 +36,7 @@ public class CSVDataStore {
         reservations = new ArrayList<>();
         payments = new ArrayList<>();
         this.loadUsersFromCSV();
+        this.loadEquipmentFromCSV();
     }
 
     public static CSVDataStore getInstance() {
@@ -163,6 +164,27 @@ public class CSVDataStore {
             }
         } catch (IOException e) {
             System.out.println("Error writing equipment CSV: " + e.getMessage());
+        }
+    }
+    
+    private void loadEquipmentFromCSV() {
+    	String line;
+    	String[] data;
+    	try (BufferedReader reader = new BufferedReader(new FileReader(usersFile))) {
+    		while ((line = reader.readLine()) != null) {
+    			if (line.equals("equipmentId,description,labLocation,status")) {
+    				
+    			}
+    			else {
+    				data = line.split(",");
+    				new EquipmentFactory();
+    				Equipment equipment = EquipmentFactory.createEquipment(data[0], data[1], data[2]);
+    				equipment.setStatus(data[4]);
+    				this.equipmentList.add(equipment);
+    			}
+    		}
+    	} catch (IOException e) {
+    		System.out.println("Error writing users CSV: " + e.getMessage());
         }
     }
 
