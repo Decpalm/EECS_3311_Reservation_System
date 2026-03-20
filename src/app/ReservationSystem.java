@@ -104,6 +104,12 @@ public class ReservationSystem {
         if (reservation.getUser() != user) {
         	throw new IllegalArgumentException("Reservation does not belong to user. ");
         }
+                
+        Equipment equipment = reservation.getEquipment();
+        
+        if (!equipment.isModifyAvailable(newStartTime, newEndTime, equipment.getEquipmentId(), reservation)) {
+            throw new IllegalArgumentException("Reservation is not available to be modified");
+        }
 
         reservation.modifyReservation(newStartTime, newEndTime);
     }
@@ -139,6 +145,12 @@ public class ReservationSystem {
         
         if (reservation.getUser() != user) {
         	throw new IllegalArgumentException("Reservation does not belong to user. ");
+        }
+        
+        Equipment equipment = reservation.getEquipment();
+        
+        if (!equipment.isModifyAvailable(reservation.getStartTime(), newEndTime, equipment.getEquipmentId(), reservation)) {
+            throw new IllegalArgumentException("Reservation is not available to be extended");
         }
 
         reservation.extendReservation(newEndTime);

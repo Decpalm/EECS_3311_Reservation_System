@@ -90,10 +90,28 @@ public class Equipment implements EquipmentSubject {
     	List<Reservation> reservations = data.getReservations();
     	
     	for(Reservation reservation : reservations) {
-    		if( 	((( start.isAfter(reservation.getStartTime()) || start.equals(reservation.getStartTime())) && (start.isBefore(reservation.getEndTime()) || start.equals(reservation.getEndTime())) ) || 
-    				(( end.isAfter(reservation.getStartTime()) 	|| end.equals(reservation.getStartTime())) 	 && (end.isBefore(reservation.getEndTime())   || end.equals(reservation.getEndTime())) )   ||
-    				(start.isBefore(reservation.getStartTime()) && end.isAfter(reservation.getEndTime())) ) && 
-    				equipmentId.equals(reservation.getEquipment().getEquipmentId())
+    		if( 	((( start.isAfter(reservation.getStartTime()) || start.equals(reservation.getStartTime())) && (start.isBefore(reservation.getEndTime()) || start.equals(reservation.getEndTime())) ) || //Start time is during another reservation
+    				(( end.isAfter(reservation.getStartTime()) 	|| end.equals(reservation.getStartTime())) 	 && (end.isBefore(reservation.getEndTime())   || end.equals(reservation.getEndTime())) )   || //End time is during another reservation
+    				(start.isBefore(reservation.getStartTime()) && end.isAfter(reservation.getEndTime())) ) && // existing reservation is between start and end time
+    				equipmentId.equals(reservation.getEquipment().getEquipmentId()) //reservation is for the same equipment
+    				){
+    			return false;
+    		}
+    	}
+    	
+        return currentState instanceof AvailableState;
+    }
+    
+    public boolean isModifyAvailable(LocalDateTime start, LocalDateTime end, String equipmentId, Reservation existingReservation) {
+    	CSVDataStore data = CSVDataStore.getInstance();
+    	List<Reservation> reservations = data.getReservations();
+    	
+    	for(Reservation reservation : reservations) {
+    		if( 	((( start.isAfter(reservation.getStartTime()) || start.equals(reservation.getStartTime())) && (start.isBefore(reservation.getEndTime()) || start.equals(reservation.getEndTime())) ) || //Start time is during another reservation
+    				(( end.isAfter(reservation.getStartTime()) 	|| end.equals(reservation.getStartTime())) 	 && (end.isBefore(reservation.getEndTime())   || end.equals(reservation.getEndTime())) )   || //End time is during another reservation
+    				(start.isBefore(reservation.getStartTime()) && end.isAfter(reservation.getEndTime())) ) && // existing reservation is between start and end time
+    				equipmentId.equals(reservation.getEquipment().getEquipmentId()) && //reservation is for the same equipment
+    				reservation != existingReservation // Doesn't check overlap with itself
     				){
     			return false;
     		}
