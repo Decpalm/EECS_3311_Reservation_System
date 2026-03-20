@@ -120,7 +120,7 @@ public class MainFrame extends JFrame {
                 		passwordField.getText().trim(), 
                 		idField.getText().trim());
                 
-                outputArea.append("ID/Cert number updated successfully. ");
+                outputArea.append("ID/Cert number updated successfully. \n");
                 emailField.setText("");
                 passwordField.setText("");
                 idField.setText("");
@@ -491,6 +491,7 @@ public class MainFrame extends JFrame {
                 }
                 controller.applySensorUpdate(
                 		user, 
+                		managerPasswordField.getText().trim(), 
                         equipmentIdField.getText().trim(),
                         (String) sensorStatusBox.getSelectedItem(),
                         sensorMessageField.getText().trim()

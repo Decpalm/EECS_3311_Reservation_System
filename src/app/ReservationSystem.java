@@ -76,6 +76,10 @@ public class ReservationSystem {
         if(!this.checkPassword(user, password)) {
     		throw new IllegalArgumentException("Email or password is incorrect");
     	}
+        
+        if(user.getStatus().equals("INACTIVE")) {
+        	throw new IllegalArgumentException("Account is inactive. Please get departmental approval. ");
+        }
 
         Equipment equipment = EquipmentFactory.createEquipment(equipmentId, description, labLocation);
         dataStore.saveEquipment(equipment);
@@ -96,6 +100,10 @@ public class ReservationSystem {
         if(!this.checkPassword(user, password)) {
     		throw new IllegalArgumentException("Email or password is incorrect");
     	}
+        
+        if(user.getStatus().equals("INACTIVE")) {
+        	throw new IllegalArgumentException("Account is inactive. Please get departmental approval. ");
+        }
 
         PricingStrategy strategy = getPricingStrategyForUser(user);
 
@@ -117,10 +125,14 @@ public class ReservationSystem {
     		throw new IllegalArgumentException("Email or password is incorrect");
     	}
         
+        if(user.getStatus().equals("INACTIVE")) {
+        	throw new IllegalArgumentException("Account is inactive. Please get departmental approval. ");
+        }
+          
         if (reservation.getUser() != user) {
         	throw new IllegalArgumentException("Reservation does not belong to user. ");
         }
-                
+              
         Equipment equipment = reservation.getEquipment();
         
         if (!equipment.isModifyAvailable(newStartTime, newEndTime, equipment.getEquipmentId(), reservation)) {
@@ -142,10 +154,14 @@ public class ReservationSystem {
     		throw new IllegalArgumentException("Email or password is incorrect");
     	}
         
+        if(user.getStatus().equals("INACTIVE")) {
+        	throw new IllegalArgumentException("Account is inactive. Please get departmental approval. ");
+        }
+
         if (reservation.getUser() != user) {
         	throw new IllegalArgumentException("Reservation does not belong to user. ");
         }
-
+        
         reservation.cancelReservation();
         dataStore.updateReservations();
     }
@@ -160,6 +176,10 @@ public class ReservationSystem {
         if(!this.checkPassword(user, password)) {
     		throw new IllegalArgumentException("Email or password is incorrect");
     	}
+        
+        if(user.getStatus().equals("INACTIVE")) {
+        	throw new IllegalArgumentException("Account is inactive. Please get departmental approval. ");
+        }
         
         if (reservation.getUser() != user) {
         	throw new IllegalArgumentException("Reservation does not belong to user. ");
@@ -186,6 +206,10 @@ public class ReservationSystem {
     		throw new IllegalArgumentException("Email or password is incorrect");
     	}
         
+        if(user.getStatus().equals("INACTIVE")) {
+        	throw new IllegalArgumentException("Account is inactive. Please get departmental approval. ");
+        }
+        
         if (reservation.getUser() != user) {
         	throw new IllegalArgumentException("Reservation does not belong to user. ");
         }
@@ -210,6 +234,10 @@ public class ReservationSystem {
     		throw new IllegalArgumentException("Email or password is incorrect");
     	}
         
+        if(user.getStatus().equals("INACTIVE")) {
+        	throw new IllegalArgumentException("Account is inactive. Please get departmental approval. ");
+        }
+        
         if (!user.getRole().equals("LabManager")) {
         	throw new IllegalArgumentException("Only Lab Managers may update equipment status.");
         }
@@ -229,11 +257,19 @@ public class ReservationSystem {
         }
     }
 
-    public void applySensorUpdate(User user, String equipmentId, SensorUpdate update) {
+    public void applySensorUpdate(User user, String password, String equipmentId, SensorUpdate update) {
         Equipment equipment = dataStore.findEquipmentById(equipmentId);
 
         if (equipment == null) {
             throw new IllegalArgumentException("Equipment not found.");
+        }
+        
+        if(!this.checkPassword(user, password)) {
+    		throw new IllegalArgumentException("Email or password is incorrect");
+    	}
+        
+        if(user.getStatus().equals("INACTIVE")) {
+        	throw new IllegalArgumentException("Account is inactive. Please get departmental approval. ");
         }
         
         if (!user.getRole().equals("LabManager")) {
@@ -251,6 +287,10 @@ public class ReservationSystem {
     	if(!this.checkPassword(user, password)) {
     		throw new IllegalArgumentException("Email or password is incorrect");
     	}
+    	
+    	 if(user.getStatus().equals("INACTIVE")) {
+         	throw new IllegalArgumentException("Account is inactive. Please get departmental approval. ");
+         }
     	
     	HeadLabCoordinator coordinator = (HeadLabCoordinator) user;
     	

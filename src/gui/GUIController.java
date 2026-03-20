@@ -63,9 +63,9 @@ public class GUIController {
         command.execute();
     }
 
-    public void applySensorUpdate(User user, String equipmentId, String operationalStatus, String message) {
+    public void applySensorUpdate(User user, String password, String equipmentId, String operationalStatus, String message) {
         SensorUpdate update = new SensorUpdate(operationalStatus, message);
-        reservationSystem.applySensorUpdate(user, equipmentId, update);
+        reservationSystem.applySensorUpdate(user, password, equipmentId, update);
     }
     
     public void AutoGenerateLabManagerCommand(User user, String password, String email) {
