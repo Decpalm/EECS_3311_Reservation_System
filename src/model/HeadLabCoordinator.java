@@ -10,7 +10,7 @@ public class HeadLabCoordinator extends User {
     }
 
     public LabManager autoGenerateManagerAccount(String email) {
-        String defaultPasswordHash = "temp123";
+        String defaultPasswordHash = "Temp123!";
         String defaultCertNumber = "LM-CERT";
 
         return new LabManager(email, defaultPasswordHash, defaultCertNumber);

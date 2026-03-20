@@ -37,12 +37,9 @@ public class ReservationSystem {
         	throw new IllegalArgumentException("Only one Head Lab Coordinator account my exist. ");
         }
         
-        //Temporarily removing password strength check to make testing easier
-        /*
-        if(!passwordHash.matches("^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{8}$") ){
-        	throw new IllegalArgumentException("Password is too weak. Please include at least one uppercase letter, lowercase letter, number, and special character.");
+        if(!passwordHash.matches("^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{8,}$") ){
+        	throw new IllegalArgumentException("Password is too weak. Please include at least one uppercase letter, lowercase letter, number, and special character. The password should also be at least 8 characters long.");
         }
-        */
 
         User user = AccountFactory.createUser(role, email, passwordHash, idOrCertNumber);
         dataStore.saveUser(user);
