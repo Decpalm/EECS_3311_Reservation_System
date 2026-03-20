@@ -42,13 +42,17 @@ public class ReservationSystem {
         return user;
     }
 
-    public Equipment addEquipment(User user, String equipmentId, String description, String labLocation) {
+    public Equipment addEquipment(User user, String password, String equipmentId, String description, String labLocation) {
         if (dataStore.findEquipmentById(equipmentId) != null) {
             throw new IllegalArgumentException("Equipment with this ID already exists.");
         }
         if (!user.getRole().equals("LabManager")) {
         	throw new IllegalArgumentException("Only Lab Managers may add new equipment.");
         }
+        
+        if(!this.checkPassword(user, password)) {
+    		throw new IllegalArgumentException("Email or password is incorrect");
+    	}
 
         Equipment equipment = EquipmentFactory.createEquipment(equipmentId, description, labLocation);
         dataStore.saveEquipment(equipment);

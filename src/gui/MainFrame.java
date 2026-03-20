@@ -31,9 +31,9 @@ public class MainFrame extends JFrame {
         tabbedPane.addTab("Modify/Cancel/Extend", createReservationManagePanel());
         tabbedPane.addTab("Process Payment", createPaymentPanel());
         tabbedPane.addTab("Equipment Status", createEquipmentStatusPanel());
-        tabbedPane.addTab("View Data", createViewDataPanel());
         tabbedPane.addTab("Auto-Generate Lab Manager Account", AutoGenerateLabManagerPanel());
-
+       
+        tabbedPane.addTab("View Data", createViewDataPanel());
         outputArea = new JTextArea(12, 80);
         outputArea.setEditable(false);
         JScrollPane outputScrollPane = new JScrollPane(outputArea);
@@ -94,10 +94,13 @@ public class MainFrame extends JFrame {
     }
 
     private JPanel createAddEquipmentPanel() {
-        JPanel panel = new JPanel(new GridLayout(5, 2, 10, 10));
+        JPanel panel = new JPanel(new GridLayout(6, 2, 10, 10));
 
         JLabel managerEmailLabel = new JLabel("Lab Manager Email:");
         JTextField managerEmailField = new JTextField();
+        
+        JLabel managerPasswordLabel = new JLabel("Lab Manager Password:");
+        JTextField managerPasswordField = new JTextField();
         
         JLabel equipmentIdLabel = new JLabel("Equipment ID:");
         JTextField equipmentIdField = new JTextField();
@@ -118,6 +121,7 @@ public class MainFrame extends JFrame {
                 }
                 controller.addEquipment(
                 		user,
+                		managerPasswordField.getText().trim(),
                 		equipmentIdField.getText().trim(),
                         descField.getText().trim(),
                         locationField.getText().trim()
@@ -145,6 +149,8 @@ public class MainFrame extends JFrame {
         panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         panel.add(managerEmailLabel);
         panel.add(managerEmailField);
+        panel.add(managerPasswordLabel);
+        panel.add(managerPasswordField);
         panel.add(equipmentIdLabel);
         panel.add(equipmentIdField);
         panel.add(descLabel);

@@ -24,8 +24,8 @@ public class GUIController {
         return reservationSystem.registerUser(role, email, passwordHash, idOrCertNumber);
     }
 
-    public void addEquipment(User user, String equipmentId, String description, String labLocation) {
-        Command command = new AddEquipmentCommand(reservationSystem, user, equipmentId, description, labLocation);
+    public void addEquipment(User user, String password, String equipmentId, String description, String labLocation) {
+        Command command = new AddEquipmentCommand(reservationSystem, user, password, equipmentId, description, labLocation);
         command.execute();
     }
 
