@@ -47,7 +47,7 @@ public class MainFrame extends JFrame {
         JPanel panel = new JPanel(new GridLayout(5, 2, 10, 10));
 
         JLabel roleLabel = new JLabel("Role:");
-        JComboBox<String> roleBox = new JComboBox<>(new String[]{"Student", "Faculty", "Researcher", "Guest"});
+        JComboBox<String> roleBox = new JComboBox<>(new String[]{"Student", "Faculty", "Researcher", "Guest", "Head Lab Coordinator"});
 
         JLabel emailLabel = new JLabel("Email:");
         JTextField emailField = new JTextField();

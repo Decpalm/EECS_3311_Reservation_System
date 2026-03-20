@@ -1,19 +1,9 @@
 package model;
 
 public class LabManager extends User {
-    private String managerId;
 
-    public LabManager(String email, String passwordHash, String idOrCertNumber, String managerId) {
+    public LabManager(String email, String passwordHash, String idOrCertNumber) {
         super(email, passwordHash, idOrCertNumber);
-        this.managerId = managerId;
-    }
-
-    public String getManagerId() {
-        return managerId;
-    }
-
-    public void setManagerId(String managerId) {
-        this.managerId = managerId;
     }
 
     public void addEquipment(Equipment equipment) {

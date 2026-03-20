@@ -107,6 +107,15 @@ public class CSVDataStore {
         }
         return null;
     }
+    
+    public User findUserByRole(String role) {
+        for (User user : users) {
+            if (user.getRole().toLowerCase().equals(role.replaceAll("\\s", "").toLowerCase())) {
+                return user;
+            }
+        }
+        return null;
+    }
 
     public Equipment findEquipmentById(String equipmentId) {
         for (Equipment equipment : equipmentList) {

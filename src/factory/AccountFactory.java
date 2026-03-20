@@ -27,19 +27,15 @@ public class AccountFactory {
 
             case "guest":
                 return new Guest(email, passwordHash, idOrCertNumber);
-
+                
+            case "head lab coordinator":
+            	return new HeadLabCoordinator(email, passwordHash, idOrCertNumber);
+            	
+            case "lab manager":
+            	return new LabManager(email, passwordHash, idOrCertNumber);
+            	
             default:
                 throw new IllegalArgumentException("Invalid user role: " + role);
         }
-    }
-
-    public static LabManager createLabManager(String email, String passwordHash,
-                                              String idOrCertNumber, String managerId) {
-        return new LabManager(email, passwordHash, idOrCertNumber, managerId);
-    }
-
-    public static HeadLabCoordinator createHeadLabCoordinator(String email, String passwordHash,
-                                                              String idOrCertNumber, String coordinatorId) {
-        return new HeadLabCoordinator(email, passwordHash, idOrCertNumber, coordinatorId);
     }
 }

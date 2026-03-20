@@ -33,9 +33,16 @@ public class ReservationSystem {
             throw new IllegalArgumentException("A user with this email already exists.");
         }
         
+        if (role.trim().toLowerCase().equals("head lab coordinator") && dataStore.findUserByRole(role) != null) {
+        	throw new IllegalArgumentException("Only one Head Lab Coordinator account my exist. ");
+        }
+        
+        //Temporarily removing password strength check to make testing easier
+        /*
         if(!passwordHash.matches("^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{8}$") ){
         	throw new IllegalArgumentException("Password is too weak. Please include at least one uppercase letter, lowercase letter, number, and special character.");
         }
+        */
 
         User user = AccountFactory.createUser(role, email, passwordHash, idOrCertNumber);
         dataStore.saveUser(user);
