@@ -344,7 +344,7 @@ public class MainFrame extends JFrame {
         JTextField amountField = new JTextField();
 
         JLabel methodLabel = new JLabel("Method:");
-        JComboBox<String> methodBox = new JComboBox<>(new String[]{"Credit Card", "Debit Card", "Cash"});
+        JComboBox<String> methodBox = new JComboBox<>(new String[]{"Credit Card", "Debit Card", "Institutional Account", "Reasearch Grant"});
 
         JButton payButton = new JButton("Process Payment");
 

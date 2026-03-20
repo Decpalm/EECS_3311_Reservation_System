@@ -112,6 +112,7 @@ public class ReservationSystem {
         }
 
         reservation.modifyReservation(newStartTime, newEndTime);
+        dataStore.updateReservations();
     }
 
     public void cancelReservation(User user, String password, String reservationId) {
@@ -130,6 +131,7 @@ public class ReservationSystem {
         }
 
         reservation.cancelReservation();
+        dataStore.updateReservations();
     }
 
     public void extendReservation(User user, String password, String reservationId, LocalDateTime newEndTime) {
@@ -154,6 +156,7 @@ public class ReservationSystem {
         }
 
         reservation.extendReservation(newEndTime);
+        dataStore.updateReservations();
     }
 
     public Payment processPayment(User user, String password, String reservationId, double amount, String method) {

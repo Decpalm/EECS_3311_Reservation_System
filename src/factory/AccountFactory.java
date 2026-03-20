@@ -15,7 +15,7 @@ public class AccountFactory {
             throw new IllegalArgumentException("Role cannot be null.");
         }
 
-        switch (role.trim().toLowerCase()) {
+        switch (role.replaceAll("\\s", "").toLowerCase()) {
             case "student":
                 return new Student(email, passwordHash, idOrCertNumber);
 
@@ -28,10 +28,10 @@ public class AccountFactory {
             case "guest":
                 return new Guest(email, passwordHash, idOrCertNumber);
                 
-            case "head lab coordinator":
+            case "headlabcoordinator":
             	return new HeadLabCoordinator(email, passwordHash, idOrCertNumber);
             	
-            case "lab manager":
+            case "labmanager":
             	return new LabManager(email, passwordHash, idOrCertNumber);
             	
             default:

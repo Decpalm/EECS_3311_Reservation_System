@@ -84,6 +84,10 @@ public class CSVDataStore {
         reservations.add(reservation);
         writeReservationsToCSV();
     }
+    
+    public void updateReservations() {
+        writeReservationsToCSV();
+    }
 
     public void savePayment(Payment payment) {
         payments.add(payment);
