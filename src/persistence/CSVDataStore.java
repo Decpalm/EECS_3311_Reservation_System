@@ -74,6 +74,10 @@ public class CSVDataStore {
         users.add(user);
         writeUsersToCSV();
     }
+    
+    public void updateUsers() {
+        writeUsersToCSV();
+    }
 
     public void saveEquipment(Equipment equipment) {
         equipmentList.add(equipment);

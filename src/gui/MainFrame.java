@@ -19,13 +19,14 @@ public class MainFrame extends JFrame {
         controller = new GUIController();
 
         setTitle("YorkU Lab Equipment Reservation Platform");
-        setSize(1100, 800);
+        setSize(1200, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
         JTabbedPane tabbedPane = new JTabbedPane();
 
         tabbedPane.addTab("Register User", createRegisterUserPanel());
+        tabbedPane.addTab("Add/Change ID/Cert", addChangeIdOrCert());
         tabbedPane.addTab("Add Equipment", createAddEquipmentPanel());
         tabbedPane.addTab("Reserve Equipment", createReserveEquipmentPanel());
         tabbedPane.addTab("Modify/Cancel/Extend", createReservationManagePanel());
@@ -90,6 +91,54 @@ public class MainFrame extends JFrame {
         panel.add(new JLabel());
         panel.add(registerButton);
 
+        return panel;
+    }
+    
+    private JPanel addChangeIdOrCert() {
+    	JPanel panel = new JPanel(new GridLayout(4, 2, 10, 10));
+    	
+    	JLabel emailLabel = new JLabel("Email:");
+        JTextField emailField = new JTextField();
+
+        JLabel passwordLabel = new JLabel("Password:");
+        JTextField passwordField = new JTextField();
+
+        JLabel idLabel = new JLabel("ID / Cert Number:");
+        JTextField idField = new JTextField();
+
+        JButton updateButton = new JButton("Update ID/Cert Number");
+        
+        updateButton.addActionListener(e -> {
+        	try {
+        		User user = controller.findUserByEmail(emailField.getText().trim());
+                if (user == null) {
+                    throw new IllegalArgumentException("User not found.");
+                }
+                
+                controller.updateIdOrCert(
+                		user, 
+                		passwordField.getText().trim(), 
+                		idField.getText().trim());
+                
+                outputArea.append("ID/Cert number updated successfully. ");
+                emailField.setText("");
+                passwordField.setText("");
+                idField.setText("");
+        	} catch (Exception ex) {
+                outputArea.append("Error updating ID/Cert number: " + ex.getMessage() + "\n");
+            }
+        });
+        
+        panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        panel.add(emailLabel);
+        panel.add(emailField);
+        panel.add(passwordLabel);
+        panel.add(passwordField);
+        panel.add(idLabel);
+        panel.add(idField);
+        panel.add(new JLabel());
+        panel.add(updateButton);
+        
         return panel;
     }
 

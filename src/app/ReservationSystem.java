@@ -49,6 +49,22 @@ public class ReservationSystem {
         return user;
     }
 
+    public void updateIdOrCert(User user, String password, String idOrCert) {
+    	if(!this.checkPassword(user, password)) {
+    		throw new IllegalArgumentException("Email or password is incorrect");
+    	}
+    	
+    	user.setIdOrCertNumber(idOrCert);
+    	
+    	if (idOrCert.equals("") && !user.getRole().equals("Guest")) {
+    		user.setStatus("INACTIVE");
+    	}
+    	else {
+       		user.setStatus("ACTIVE");
+    	}
+    	dataStore.updateUsers();
+    }
+
     public Equipment addEquipment(User user, String password, String equipmentId, String description, String labLocation) {
         if (dataStore.findEquipmentById(equipmentId) != null) {
             throw new IllegalArgumentException("Equipment with this ID already exists.");

@@ -23,6 +23,11 @@ public class GUIController {
     public User registerUser(String role, String email, String passwordHash, String idOrCertNumber) {
         return reservationSystem.registerUser(role, email, passwordHash, idOrCertNumber);
     }
+    
+    public void updateIdOrCert(User user, String password, String idOrCert) {
+    	Command command = new updateIdOrCertCommand(reservationSystem, user, password, idOrCert);
+        command.execute();
+    }
 
     public void addEquipment(User user, String password, String equipmentId, String description, String labLocation) {
         Command command = new AddEquipmentCommand(reservationSystem, user, password, equipmentId, description, labLocation);
