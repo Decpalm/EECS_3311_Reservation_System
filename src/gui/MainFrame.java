@@ -32,6 +32,7 @@ public class MainFrame extends JFrame {
         tabbedPane.addTab("Process Payment", createPaymentPanel());
         tabbedPane.addTab("Equipment Status", createEquipmentStatusPanel());
         tabbedPane.addTab("View Data", createViewDataPanel());
+        tabbedPane.addTab("Auto-Generate Lab Manager Account", AutoGenerateLabManagerPanel());
 
         outputArea = new JTextArea(12, 80);
         outputArea.setEditable(false);
@@ -451,6 +452,50 @@ public class MainFrame extends JFrame {
         return panel;
     }
 
+    private JPanel AutoGenerateLabManagerPanel() {
+    	JPanel panel = new JPanel(new GridLayout(4, 2, 10, 10));
+    	
+    	JLabel coordinatorEmailLabel = new JLabel("Head Lab Coordinator Email:");
+        JTextField coordinatorEmailField = new JTextField();
+        
+        JLabel coordinatorPasswordLabel = new JLabel("Head Lab Coordinator Password:");
+        JTextField coordinatorPasswordField = new JTextField();
+    	
+    	JLabel labManagerEmailLabel = new JLabel("Lab Manager Email:");
+        JTextField labManagerEmailField = new JTextField();
+        
+        JButton generateButton = new JButton("Generate Lab Manager Account");
+        
+        generateButton.addActionListener(e -> {
+        	try {
+            	User user = controller.findUserByEmail(coordinatorEmailField.getText().trim());
+                if (user == null) {
+                    throw new IllegalArgumentException("User not found.");
+                }
+                
+                controller.AutoGenerateLabManagerCommand(
+                		user, 
+                		coordinatorPasswordField.getText().trim(), 
+                		labManagerEmailField.getText().trim());
+                outputArea.append("Lab Manager account successfully generated.\n");
+            } catch (Exception ex) {
+                outputArea.append("Error updating equipment status: " + ex.getMessage() + "\n");
+            }
+        });
+        
+        panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        panel.add(coordinatorEmailLabel);
+        panel.add(coordinatorEmailField);
+        panel.add(coordinatorPasswordLabel);
+        panel.add(coordinatorPasswordField);
+        panel.add(labManagerEmailLabel);
+        panel.add(labManagerEmailField);
+        panel.add(new JLabel());
+        panel.add(generateButton);
+
+        return panel;
+    }
+    
     private Reservation getLatestReservation() {
         List<Reservation> reservations = controller.getAllReservations();
         if (reservations.isEmpty()) {

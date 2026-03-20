@@ -1,13 +1,7 @@
 package gui;
 
 import app.ReservationSystem;
-import command.AddEquipmentCommand;
-import command.CancelBookingCommand;
-import command.Command;
-import command.ExtendBookingCommand;
-import command.ModifyBookingCommand;
-import command.ReserveEquipmentCommand;
-import command.UpdateEquipmentStatusCommand;
+import command.*;
 import model.Equipment;
 import model.Payment;
 import model.Reservation;
@@ -67,6 +61,11 @@ public class GUIController {
     public void applySensorUpdate(User user, String equipmentId, String operationalStatus, String message) {
         SensorUpdate update = new SensorUpdate(operationalStatus, message);
         reservationSystem.applySensorUpdate(user, equipmentId, update);
+    }
+    
+    public void AutoGenerateLabManagerCommand(User user, String password, String email) {
+        Command command = new AutoGenerateLabManagerCommand(reservationSystem, user, password, email);
+        command.execute();
     }
 
     public List<User> getAllUsers() {

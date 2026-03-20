@@ -2,11 +2,7 @@ package app;
 
 import factory.AccountFactory;
 import factory.EquipmentFactory;
-import model.Equipment;
-import model.Payment;
-import model.Reservation;
-import model.SensorUpdate;
-import model.User;
+import model.*;
 import persistence.CSVDataStore;
 import strategy.FacultyPricingStrategy;
 import strategy.GuestPricingStrategy;
@@ -166,6 +162,22 @@ public class ReservationSystem {
         equipment.applySensorUpdate(update);
     }
 
+    public void autoGenerateLabManager(User user, String password, String email) {
+    	if (!user.getRole().equals("HeadLabCoordinator")) {
+        	throw new IllegalArgumentException("Only Head Lab Coordinators may auto-generate Lab Manager accounts.");
+        }
+    	
+    	if(!this.checkPassword(user, password)) {
+    		throw new IllegalArgumentException("Email or password is incorrect");
+    	}
+    	
+    	HeadLabCoordinator coordinator = (HeadLabCoordinator) user;
+    	
+    	User labManager = coordinator.autoGenerateManagerAccount(email);
+    	
+    	dataStore.saveUser(labManager);
+    }
+    
     public List<User> getAllUsers() {
         return dataStore.getUsers();
     }
