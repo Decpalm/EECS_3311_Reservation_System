@@ -138,6 +138,8 @@ public class MainFrame extends JFrame {
                 }
 
                 outputArea.append("Equipment added successfully.\n");
+                managerEmailField.setText("");
+                managerPasswordField.setText("");
                 equipmentIdField.setText("");
                 descField.setText("");
                 locationField.setText("");
@@ -164,10 +166,13 @@ public class MainFrame extends JFrame {
     }
 
     private JPanel createReserveEquipmentPanel() {
-        JPanel panel = new JPanel(new GridLayout(5, 2, 10, 10));
+        JPanel panel = new JPanel(new GridLayout(6, 2, 10, 10));
 
         JLabel emailLabel = new JLabel("User Email:");
         JTextField emailField = new JTextField();
+        
+        JLabel passwordLabel = new JLabel("User password:");
+        JTextField passwordField = new JTextField();
 
         JLabel equipmentIdLabel = new JLabel("Equipment ID:");
         JTextField equipmentIdField = new JTextField();
@@ -192,6 +197,7 @@ public class MainFrame extends JFrame {
 
                 controller.reserveEquipment(
                         user,
+                        passwordField.getText().trim(),
                         equipmentIdField.getText().trim(),
                         start,
                         end
@@ -205,6 +211,7 @@ public class MainFrame extends JFrame {
                 }
 
                 emailField.setText("");
+                passwordField.setText("");
                 equipmentIdField.setText("");
             } catch (Exception ex) {
                 outputArea.append("Error reserving equipment: " + ex.getMessage() + "\n");
@@ -214,6 +221,8 @@ public class MainFrame extends JFrame {
         panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         panel.add(emailLabel);
         panel.add(emailField);
+        panel.add(passwordLabel);
+        panel.add(passwordField);
         panel.add(equipmentIdLabel);
         panel.add(equipmentIdField);
         panel.add(startLabel);

@@ -29,8 +29,8 @@ public class GUIController {
         command.execute();
     }
 
-    public void reserveEquipment(User user, String equipmentId, LocalDateTime startTime, LocalDateTime endTime) {
-        Command command = new ReserveEquipmentCommand(reservationSystem, user, equipmentId, startTime, endTime);
+    public void reserveEquipment(User user, String password, String equipmentId, LocalDateTime startTime, LocalDateTime endTime) {
+        Command command = new ReserveEquipmentCommand(reservationSystem, user, password, equipmentId, startTime, endTime);
         command.execute();
     }
 

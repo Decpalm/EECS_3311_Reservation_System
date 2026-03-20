@@ -59,8 +59,7 @@ public class ReservationSystem {
         return equipment;
     }
 
-    public Reservation createReservation(User user, String equipmentId,
-                                         LocalDateTime startTime, LocalDateTime endTime) {
+    public Reservation createReservation(User user, String password, String equipmentId, LocalDateTime startTime, LocalDateTime endTime) {
         Equipment equipment = dataStore.findEquipmentById(equipmentId);
 
         if (equipment == null) {
@@ -70,6 +69,10 @@ public class ReservationSystem {
         if (!equipment.isAvailable(startTime, endTime, equipmentId)) {
             throw new IllegalArgumentException("Equipment is not available for reservation.");
         }
+        
+        if(!this.checkPassword(user, password)) {
+    		throw new IllegalArgumentException("Email or password is incorrect");
+    	}
 
         PricingStrategy strategy = getPricingStrategyForUser(user);
 
