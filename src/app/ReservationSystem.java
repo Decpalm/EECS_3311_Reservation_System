@@ -196,4 +196,8 @@ public class ReservationSystem {
                 throw new IllegalArgumentException("No pricing strategy found for role: " + user.getRole());
         }
     }
+
+    private boolean checkPassword(User user, String password) {
+    	return user.getPasswordHash().equals(password);
+    }
 }
