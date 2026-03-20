@@ -53,8 +53,8 @@ public class GUIController {
         return reservationSystem.processPayment(user, password, reservationId, amount, method);
     }
 
-    public void updateEquipmentStatus(User user, String equipmentId, String newStatus) {
-        Command command = new UpdateEquipmentStatusCommand(reservationSystem, user, equipmentId, newStatus);
+    public void updateEquipmentStatus(User user, String password, String equipmentId, String newStatus) {
+        Command command = new UpdateEquipmentStatusCommand(reservationSystem, user, password, equipmentId, newStatus);
         command.execute();
     }
 

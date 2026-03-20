@@ -171,7 +171,7 @@ public class MainFrame extends JFrame {
         JLabel emailLabel = new JLabel("User Email:");
         JTextField emailField = new JTextField();
         
-        JLabel passwordLabel = new JLabel("User password:");
+        JLabel passwordLabel = new JLabel("User Password:");
         JTextField passwordField = new JTextField();
 
         JLabel equipmentIdLabel = new JLabel("Equipment ID:");
@@ -268,6 +268,9 @@ public class MainFrame extends JFrame {
 
                 controller.modifyReservation(user, passwordField.getText().trim(), reservationIdField.getText().trim(), newStart, newEnd);
                 outputArea.append("Reservation modified successfully.\n");
+                emailField.setText("");
+                passwordField.setText("");
+                reservationIdField.setText("");
             } catch (Exception ex) {
                 outputArea.append("Error modifying reservation: " + ex.getMessage() + "\n");
             }
@@ -281,6 +284,9 @@ public class MainFrame extends JFrame {
                 }
                 controller.cancelReservation(user, passwordField.getText().trim(), reservationIdField.getText().trim());
                 outputArea.append("Reservation cancelled successfully.\n");
+                emailField.setText("");
+                passwordField.setText("");
+                reservationIdField.setText("");
             } catch (Exception ex) {
                 outputArea.append("Error cancelling reservation: " + ex.getMessage() + "\n");
             }
@@ -295,6 +301,9 @@ public class MainFrame extends JFrame {
                 LocalDateTime newEnd = LocalDateTime.parse(newEndField.getText().trim());
                 controller.extendReservation(user, passwordField.getText().trim(), reservationIdField.getText().trim(), newEnd);
                 outputArea.append("Reservation extended successfully.\n");
+                emailField.setText("");
+                passwordField.setText("");
+                reservationIdField.setText("");
             } catch (Exception ex) {
                 outputArea.append("Error extending reservation: " + ex.getMessage() + "\n");
             }
@@ -355,6 +364,8 @@ public class MainFrame extends JFrame {
                 );
 
                 outputArea.append("Payment processed successfully: " + payment + "\n");
+                emailField.setText("");
+                passwordField.setText("");
                 reservationIdField.setText("");
                 amountField.setText("");
             } catch (Exception ex) {
@@ -380,10 +391,13 @@ public class MainFrame extends JFrame {
     }
 
     private JPanel createEquipmentStatusPanel() {
-        JPanel panel = new JPanel(new GridLayout(7, 2, 10, 10));
+        JPanel panel = new JPanel(new GridLayout(8, 2, 10, 10));
         
         JLabel managerEmailLabel = new JLabel("Lab Manager Email:");
         JTextField managerEmailField = new JTextField();
+        
+        JLabel managerPasswordLabel = new JLabel("Lab Manager Password:");
+        JTextField managerPasswordField = new JTextField();
 
         JLabel equipmentIdLabel = new JLabel("Equipment ID:");
         JTextField equipmentIdField = new JTextField();
@@ -409,7 +423,8 @@ public class MainFrame extends JFrame {
                 }
                 
                 controller.updateEquipmentStatus(
-                		user, 
+                		user,
+                		managerPasswordField.getText().trim(),
                         equipmentIdField.getText().trim(),
                         (String) statusBox.getSelectedItem()
                 );
@@ -440,6 +455,8 @@ public class MainFrame extends JFrame {
         panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         panel.add(managerEmailLabel);
         panel.add(managerEmailField);
+        panel.add(managerPasswordLabel);
+        panel.add(managerPasswordField);
         panel.add(equipmentIdLabel);
         panel.add(equipmentIdField);
         panel.add(statusLabel);

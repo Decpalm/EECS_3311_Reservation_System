@@ -161,12 +161,16 @@ public class ReservationSystem {
         return payment;
     }
 
-    public void updateEquipmentStatus(User user, String equipmentId, String newStatus) {
+    public void updateEquipmentStatus(User user, String password, String equipmentId, String newStatus) {
         Equipment equipment = dataStore.findEquipmentById(equipmentId);
 
         if (equipment == null) {
             throw new IllegalArgumentException("Equipment not found.");
         }
+        
+        if(!this.checkPassword(user, password)) {
+    		throw new IllegalArgumentException("Email or password is incorrect");
+    	}
         
         if (!user.getRole().equals("LabManager")) {
         	throw new IllegalArgumentException("Only Lab Managers may update equipment status.");
