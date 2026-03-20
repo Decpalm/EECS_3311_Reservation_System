@@ -83,41 +83,73 @@ public class ReservationSystem {
         return reservation;
     }
 
-    public void modifyReservation(String reservationId, LocalDateTime newStartTime, LocalDateTime newEndTime) {
+    public void modifyReservation(User user, String password, String reservationId, LocalDateTime newStartTime, LocalDateTime newEndTime) {
         Reservation reservation = dataStore.findReservationById(reservationId);
 
         if (reservation == null) {
             throw new IllegalArgumentException("Reservation not found.");
+        }
+        
+        if(!this.checkPassword(user, password)) {
+    		throw new IllegalArgumentException("Email or password is incorrect");
+    	}
+        
+        if (reservation.getUser() != user) {
+        	throw new IllegalArgumentException("Reservation does not belong to user. ");
         }
 
         reservation.modifyReservation(newStartTime, newEndTime);
     }
 
-    public void cancelReservation(String reservationId) {
+    public void cancelReservation(User user, String password, String reservationId) {
         Reservation reservation = dataStore.findReservationById(reservationId);
 
         if (reservation == null) {
             throw new IllegalArgumentException("Reservation not found.");
+        }
+        
+        if(!this.checkPassword(user, password)) {
+    		throw new IllegalArgumentException("Email or password is incorrect");
+    	}
+        
+        if (reservation.getUser() != user) {
+        	throw new IllegalArgumentException("Reservation does not belong to user. ");
         }
 
         reservation.cancelReservation();
     }
 
-    public void extendReservation(String reservationId, LocalDateTime newEndTime) {
+    public void extendReservation(User user, String password, String reservationId, LocalDateTime newEndTime) {
         Reservation reservation = dataStore.findReservationById(reservationId);
 
         if (reservation == null) {
             throw new IllegalArgumentException("Reservation not found.");
         }
+        
+        if(!this.checkPassword(user, password)) {
+    		throw new IllegalArgumentException("Email or password is incorrect");
+    	}
+        
+        if (reservation.getUser() != user) {
+        	throw new IllegalArgumentException("Reservation does not belong to user. ");
+        }
 
         reservation.extendReservation(newEndTime);
     }
 
-    public Payment processPayment(String reservationId, double amount, String method) {
+    public Payment processPayment(User user, String password, String reservationId, double amount, String method) {
         Reservation reservation = dataStore.findReservationById(reservationId);
 
         if (reservation == null) {
             throw new IllegalArgumentException("Reservation not found.");
+        }
+        
+        if(!this.checkPassword(user, password)) {
+    		throw new IllegalArgumentException("Email or password is incorrect");
+    	}
+        
+        if (reservation.getUser() != user) {
+        	throw new IllegalArgumentException("Reservation does not belong to user. ");
         }
 
         Payment payment = new Payment(amount, method);

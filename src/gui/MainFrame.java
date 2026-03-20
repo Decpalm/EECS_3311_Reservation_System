@@ -236,8 +236,14 @@ public class MainFrame extends JFrame {
     }
 
     private JPanel createReservationManagePanel() {
-        JPanel panel = new JPanel(new GridLayout(6, 2, 10, 10));
+        JPanel panel = new JPanel(new GridLayout(7, 2, 10, 10));
 
+        JLabel emailLabel = new JLabel("User Email:");
+        JTextField emailField = new JTextField();
+        
+        JLabel passwordLabel = new JLabel("User Password:");
+        JTextField passwordField = new JTextField();
+        
         JLabel reservationIdLabel = new JLabel("Reservation ID:");
         JTextField reservationIdField = new JTextField();
 
@@ -253,10 +259,14 @@ public class MainFrame extends JFrame {
 
         modifyButton.addActionListener(e -> {
             try {
+            	User user = controller.findUserByEmail(emailField.getText().trim());
+                if (user == null) {
+                    throw new IllegalArgumentException("User not found.");
+                }
                 LocalDateTime newStart = LocalDateTime.parse(newStartField.getText().trim());
                 LocalDateTime newEnd = LocalDateTime.parse(newEndField.getText().trim());
 
-                controller.modifyReservation(reservationIdField.getText().trim(), newStart, newEnd);
+                controller.modifyReservation(user, passwordField.getText().trim(), reservationIdField.getText().trim(), newStart, newEnd);
                 outputArea.append("Reservation modified successfully.\n");
             } catch (Exception ex) {
                 outputArea.append("Error modifying reservation: " + ex.getMessage() + "\n");
@@ -265,7 +275,11 @@ public class MainFrame extends JFrame {
 
         cancelButton.addActionListener(e -> {
             try {
-                controller.cancelReservation(reservationIdField.getText().trim());
+            	User user = controller.findUserByEmail(emailField.getText().trim());
+                if (user == null) {
+                    throw new IllegalArgumentException("User not found.");
+                }
+                controller.cancelReservation(user, passwordField.getText().trim(), reservationIdField.getText().trim());
                 outputArea.append("Reservation cancelled successfully.\n");
             } catch (Exception ex) {
                 outputArea.append("Error cancelling reservation: " + ex.getMessage() + "\n");
@@ -274,8 +288,12 @@ public class MainFrame extends JFrame {
 
         extendButton.addActionListener(e -> {
             try {
+            	User user = controller.findUserByEmail(emailField.getText().trim());
+                if (user == null) {
+                    throw new IllegalArgumentException("User not found.");
+                }
                 LocalDateTime newEnd = LocalDateTime.parse(newEndField.getText().trim());
-                controller.extendReservation(reservationIdField.getText().trim(), newEnd);
+                controller.extendReservation(user, passwordField.getText().trim(), reservationIdField.getText().trim(), newEnd);
                 outputArea.append("Reservation extended successfully.\n");
             } catch (Exception ex) {
                 outputArea.append("Error extending reservation: " + ex.getMessage() + "\n");
@@ -283,6 +301,10 @@ public class MainFrame extends JFrame {
         });
 
         panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        panel.add(emailLabel);
+        panel.add(emailField);
+        panel.add(passwordLabel);
+        panel.add(passwordField);
         panel.add(reservationIdLabel);
         panel.add(reservationIdField);
         panel.add(newStartLabel);
@@ -298,7 +320,13 @@ public class MainFrame extends JFrame {
     }
 
     private JPanel createPaymentPanel() {
-        JPanel panel = new JPanel(new GridLayout(4, 2, 10, 10));
+        JPanel panel = new JPanel(new GridLayout(6, 2, 10, 10));
+        
+        JLabel emailLabel = new JLabel("User Email:");
+        JTextField emailField = new JTextField();
+        
+        JLabel passwordLabel = new JLabel("User Password:");
+        JTextField passwordField = new JTextField();
 
         JLabel reservationIdLabel = new JLabel("Reservation ID:");
         JTextField reservationIdField = new JTextField();
@@ -313,8 +341,14 @@ public class MainFrame extends JFrame {
 
         payButton.addActionListener(e -> {
             try {
+            	User user = controller.findUserByEmail(emailField.getText().trim());
+                if (user == null) {
+                    throw new IllegalArgumentException("User not found.");
+                }
                 double amount = Double.parseDouble(amountField.getText().trim());
                 Payment payment = controller.processPayment(
+                		user, 
+                		passwordField.getText().trim(), 
                         reservationIdField.getText().trim(),
                         amount,
                         (String) methodBox.getSelectedItem()
@@ -329,6 +363,10 @@ public class MainFrame extends JFrame {
         });
 
         panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        panel.add(emailLabel);
+        panel.add(emailField);
+        panel.add(passwordLabel);
+        panel.add(passwordField);
         panel.add(reservationIdLabel);
         panel.add(reservationIdField);
         panel.add(amountLabel);

@@ -34,23 +34,23 @@ public class GUIController {
         command.execute();
     }
 
-    public void modifyReservation(String reservationId, LocalDateTime newStartTime, LocalDateTime newEndTime) {
-        Command command = new ModifyBookingCommand(reservationSystem, reservationId, newStartTime, newEndTime);
+    public void modifyReservation(User user, String password, String reservationId, LocalDateTime newStartTime, LocalDateTime newEndTime) {
+        Command command = new ModifyBookingCommand(reservationSystem, user, password, reservationId, newStartTime, newEndTime);
         command.execute();
     }
 
-    public void cancelReservation(String reservationId) {
-        Command command = new CancelBookingCommand(reservationSystem, reservationId);
+    public void cancelReservation(User user, String password, String reservationId) {
+        Command command = new CancelBookingCommand(reservationSystem, user, password, reservationId);
         command.execute();
     }
 
-    public void extendReservation(String reservationId, LocalDateTime newEndTime) {
-        Command command = new ExtendBookingCommand(reservationSystem, reservationId, newEndTime);
+    public void extendReservation(User user, String password, String reservationId, LocalDateTime newEndTime) {
+        Command command = new ExtendBookingCommand(reservationSystem, user, password, reservationId, newEndTime);
         command.execute();
     }
 
-    public Payment processPayment(String reservationId, double amount, String method) {
-        return reservationSystem.processPayment(reservationId, amount, method);
+    public Payment processPayment(User user, String password, String reservationId, double amount, String method) {
+        return reservationSystem.processPayment(user, password, reservationId, amount, method);
     }
 
     public void updateEquipmentStatus(User user, String equipmentId, String newStatus) {
