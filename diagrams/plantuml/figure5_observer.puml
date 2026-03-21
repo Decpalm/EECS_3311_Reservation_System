@@ -15,13 +15,11 @@ interface EquipmentSubject {
 }
 
 class Equipment {
-  - equipmentId: String
-  - description: String
-  - labLocation: String
   - status: String
   + enable(): void
   + disable(): void
   + markMaintenance(): void
+  + applySensorUpdate(update: SensorUpdate): void
 }
 
 class LabManagerDashboard {
@@ -30,21 +28,23 @@ class LabManagerDashboard {
 
 class NotificationService {
   + update(equipment: Equipment): void
-  + sendMaintenanceAlert(equipment: Equipment): void
-  + sendStatusAlert(equipment: Equipment): void
+}
+
+class GUIController {
+  + attachDefaultObserversToEquipment(equipment: Equipment): void
 }
 
 class SensorUpdate {
-  - updateId: UUID
-  - timestamp: LocalDateTime
   - operationalStatus: String
   - message: String
 }
 
 Equipment ..|> EquipmentSubject
-EquipmentObserver <|.. LabManagerDashboard
-EquipmentObserver <|.. NotificationService
+LabManagerDashboard ..|> EquipmentObserver
+NotificationService ..|> EquipmentObserver
 
-Equipment "1" --> "0..*" EquipmentObserver : notifies
-SensorUpdate --> Equipment : updates status
+Equipment --> EquipmentObserver 
+GUIController ..> LabManagerDashboard 
+GUIController ..> NotificationService 
+SensorUpdate ..> Equipment 
 @enduml
