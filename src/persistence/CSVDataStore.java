@@ -44,7 +44,7 @@ public class CSVDataStore {
         this.loadUsersFromCSV();
         this.loadEquipmentFromCSV();
         this.loadReservationsFromCSV();
-        this.loadPaymentssFromCSV();
+        this.loadPaymentsFromCSV();
     }
 
     public static CSVDataStore getInstance() {
@@ -339,7 +339,7 @@ public class CSVDataStore {
         }
     }
     
-    private void loadPaymentssFromCSV() {
+    private void loadPaymentsFromCSV() {
     	String line;
     	String[] data;
     	try (BufferedReader reader = new BufferedReader(new FileReader(paymentsFile))) {
