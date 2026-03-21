@@ -8,48 +8,20 @@ interface Command <<Command>> {
   + execute(): void
 }
 
-class ReserveEquipmentCommand {
-  - system: ReservationSystem
-  + execute(): void
-}
-
-class ModifyBookingCommand {
-  - system: ReservationSystem
-  + execute(): void
-}
-
-class CancelBookingCommand {
-  - system: ReservationSystem
-  + execute(): void
-}
-
-class ExtendBookingCommand {
-  - system: ReservationSystem
-  + execute(): void
-}
-
-class AddEquipmentCommand {
-  - system: ReservationSystem
-  + execute(): void
-}
-
-class UpdateEquipmentStatusCommand {
-  - system: ReservationSystem
-  + execute(): void
-}
+class ReserveEquipmentCommand
+class ModifyBookingCommand
+class CancelBookingCommand
+class ExtendBookingCommand
+class AddEquipmentCommand
+class UpdateEquipmentStatusCommand
+class AutoGenerateLabManagerCommand
+class UpdateIdOrCertCommand
 
 class GUIController {
   + submit(command: Command): void
 }
 
-class ReservationSystem {
-  + reserveEquipment(...): Reservation
-  + modifyBooking(...): void
-  + cancelBooking(...): void
-  + extendBooking(...): void
-  + addEquipment(...): void
-  + updateEquipmentStatus(...): void
-}
+class ReservationSystem
 
 Command <|.. ReserveEquipmentCommand
 Command <|.. ModifyBookingCommand
@@ -57,12 +29,16 @@ Command <|.. CancelBookingCommand
 Command <|.. ExtendBookingCommand
 Command <|.. AddEquipmentCommand
 Command <|.. UpdateEquipmentStatusCommand
+Command <|.. AutoGenerateLabManagerCommand
+Command <|.. UpdateIdOrCertCommand
 
-GUIController --> Command : triggers
+GUIController --> Command
 ReserveEquipmentCommand --> ReservationSystem
 ModifyBookingCommand --> ReservationSystem
 CancelBookingCommand --> ReservationSystem
 ExtendBookingCommand --> ReservationSystem
 AddEquipmentCommand --> ReservationSystem
 UpdateEquipmentStatusCommand --> ReservationSystem
+AutoGenerateLabManagerCommand --> ReservationSystem
+UpdateIdOrCertCommand --> ReservationSystem
 @enduml
