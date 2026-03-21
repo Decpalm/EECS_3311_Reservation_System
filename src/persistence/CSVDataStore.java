@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class CSVDataStore {
-    private static CSVDataStore instance;
+    private static final CSVDataStore instance = new CSVDataStore();
 
     private final String usersFile = "data/users.csv";
     private final String equipmentFile = "data/equipment.csv";
@@ -48,9 +48,6 @@ public class CSVDataStore {
     }
 
     public static CSVDataStore getInstance() {
-        if (instance == null) {
-            instance = new CSVDataStore();
-        }
         return instance;
     }
 
