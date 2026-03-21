@@ -4,20 +4,20 @@ title Factory Method Pattern - Account and Equipment Creation
 skinparam classAttributeIconSize 0
 skinparam shadowing false
 
-abstract class User {
-  - userId: UUID
-  - email: String
-  - passwordHash: String
-  - status: String
-  - idOrCertNumber: String
-  + getHourlyRate(): double
-}
-
+abstract class User
 class Student
 class Faculty
 class Researcher
 class Guest
+class HeadLabCoordinator
 class LabManager
+
+User <|-- Student
+User <|-- Faculty
+User <|-- Researcher
+User <|-- Guest
+User <|-- HeadLabCoordinator
+User <|-- LabManager
 
 class Equipment {
   - equipmentId: String
@@ -27,20 +27,17 @@ class Equipment {
 }
 
 class AccountFactory <<Factory>> {
-  + createUser(type: String, email: String, passwordHash: String, idOrCertNumber: String): User
-  + createLabManager(email: String): LabManager
+  + createUser(role, email, passwordHash, idOrCertNumber): User
 }
 
 class EquipmentFactory <<Factory>> {
-  + createEquipment(description: String, labLocation: String): Equipment
+  + createEquipment(equipmentId, description, labLocation): Equipment
 }
 
-User <|-- Student
-User <|-- Faculty
-User <|-- Researcher
-User <|-- Guest
-User <|-- LabManager
+class ReservationSystem
 
 AccountFactory ..> User : creates
 EquipmentFactory ..> Equipment : creates
+ReservationSystem ..> AccountFactory : uses
+ReservationSystem ..> EquipmentFactory : uses
 @enduml
