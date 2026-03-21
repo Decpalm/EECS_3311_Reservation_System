@@ -25,7 +25,7 @@ public class GUIController {
     }
     
     public void updateIdOrCert(User user, String password, String idOrCert) {
-    	Command command = new updateIdOrCertCommand(reservationSystem, user, password, idOrCert);
+    	Command command = new UpdateIdOrCertCommand(reservationSystem, user, password, idOrCert);
         command.execute();
     }
 

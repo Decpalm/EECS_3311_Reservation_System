@@ -93,7 +93,8 @@ public class Equipment implements EquipmentSubject {
     		if( 	((( start.isAfter(reservation.getStartTime()) || start.equals(reservation.getStartTime())) && (start.isBefore(reservation.getEndTime()) || start.equals(reservation.getEndTime())) ) || //Start time is during another reservation
     				(( end.isAfter(reservation.getStartTime()) 	|| end.equals(reservation.getStartTime())) 	 && (end.isBefore(reservation.getEndTime())   || end.equals(reservation.getEndTime())) )   || //End time is during another reservation
     				(start.isBefore(reservation.getStartTime()) && end.isAfter(reservation.getEndTime())) ) && // existing reservation is between start and end time
-    				equipmentId.equals(reservation.getEquipment().getEquipmentId()) //reservation is for the same equipment
+    				equipmentId.equals(reservation.getEquipment().getEquipmentId()) && //reservation is for the same equipment
+    				!reservation.getStatus().equals("Cancelled") //reservation is not cancelled
     				){
     			return false;
     		}
@@ -111,7 +112,8 @@ public class Equipment implements EquipmentSubject {
     				(( end.isAfter(reservation.getStartTime()) 	|| end.equals(reservation.getStartTime())) 	 && (end.isBefore(reservation.getEndTime())   || end.equals(reservation.getEndTime())) )   || //End time is during another reservation
     				(start.isBefore(reservation.getStartTime()) && end.isAfter(reservation.getEndTime())) ) && // existing reservation is between start and end time
     				equipmentId.equals(reservation.getEquipment().getEquipmentId()) && //reservation is for the same equipment
-    				reservation != existingReservation // Doesn't check overlap with itself
+    				reservation != existingReservation && // Doesn't check overlap with itself
+    				!reservation.getStatus().equals("Cancelled") //reservation is not cancelled
     				){
     			return false;
     		}
