@@ -174,7 +174,12 @@ public class CSVDataStore {
     				data = line.split(",");
     				new AccountFactory();
 					User user = AccountFactory.createUser(data[5], data[1], data[2], data[4]);
-    				user.setStatus(data[3]);
+    				if (data[3].equals("ACTIVE")) {
+    					user.setActive(true);;
+    				}
+    				else {
+    					user.setActive(false);
+    				}
     				user.setUserId(UUID.fromString(data[0]));
     				this.users.add(user);
     			}

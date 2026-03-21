@@ -55,10 +55,6 @@ public abstract class User {
         this.passwordHash = passwordHash;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     public void setIdOrCertNumber(String idOrCertNumber) {
         this.idOrCertNumber = idOrCertNumber;
     }

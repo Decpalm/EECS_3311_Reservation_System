@@ -5,7 +5,7 @@ public class HeadLabCoordinator extends User {
     public HeadLabCoordinator(String email, String passwordHash, String idOrCertNumber) {
         super(email, passwordHash, idOrCertNumber);
         if(this.getIdOrCertNumber().equals("")) {
-        	this.setStatus("INACTIVE");
+        	this.setActive(false);;
         }
     }
 

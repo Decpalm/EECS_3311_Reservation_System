@@ -54,10 +54,10 @@ public class ReservationSystem {
     	user.setIdOrCertNumber(idOrCert);
     	
     	if (idOrCert.equals("") && !user.getRole().equals("Guest")) {
-    		user.setStatus("INACTIVE");
+    		user.setActive(false);;
     	}
     	else {
-       		user.setStatus("ACTIVE");
+    		user.setActive(true);;
     	}
     	dataStore.updateUsers();
     }
