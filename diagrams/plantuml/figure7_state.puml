@@ -5,34 +5,34 @@ skinparam classAttributeIconSize 0
 skinparam shadowing false
 
 interface EquipmentState <<State>> {
-  + enable(equipment: Equipment): void
-  + disable(equipment: Equipment): void
-  + markMaintenance(equipment: Equipment): void
+  + getStateName(): String
 }
 
 class AvailableState
 class DisabledState
 class MaintenanceState
 
+EquipmentState <|.. AvailableState
+EquipmentState <|.. DisabledState
+EquipmentState <|.. MaintenanceState
+
 class Equipment {
-  - equipmentId: String
-  - status: String
   - currentState: EquipmentState
-  + setState(state: EquipmentState): void
+  - status: String
+
+::contentReference[oaicite:7]{index=7}
   + enable(): void
   + disable(): void
   + markMaintenance(): void
 }
 
-EquipmentState <|.. AvailableState
-EquipmentState <|.. DisabledState
-EquipmentState <|.. MaintenanceState
 Equipment --> EquipmentState : currentState
 
 interface ReservationState <<State>> {
   + modify(reservation: Reservation): void
   + cancel(reservation: Reservation): void
   + extend(reservation: Reservation): void
+  + getStateName(): String
 }
 
 class PendingState
@@ -40,19 +40,19 @@ class ConfirmedState
 class ExtendedState
 class CancelledState
 
-class Reservation {
-  - reservationId: UUID
-  - status: String
-  - currentState: ReservationState
-  + setState(state: ReservationState): void
-  + modifyReservation(...): void
-  + cancelReservation(...): boolean
-  + extendReservation(...): boolean
-}
-
 ReservationState <|.. PendingState
 ReservationState <|.. ConfirmedState
 ReservationState <|.. ExtendedState
 ReservationState <|.. CancelledState
+
+class Reservation {
+  - currentState: ReservationState
+  - status: String
+  + confirmReservation(): void
+  + modifyReservation(newStart, newEnd): void
+  + cancelReservation(): boolean
+  + extendReservation(newEndTime): boolean
+}
+
 Reservation --> ReservationState : currentState
 @enduml
