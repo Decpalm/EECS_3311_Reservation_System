@@ -58,7 +58,6 @@ CSV files in the `data/` folder simulate persistence:
 
 ## ⚙️ Requirements
 - Java JDK 17+
-- VS Code (recommended) with Java Extension Pack
 
 Check installation:
 ```bash
