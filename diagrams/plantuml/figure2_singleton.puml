@@ -6,27 +6,29 @@ skinparam shadowing false
 
 class ReservationSystem <<Singleton>> {
   - instance: ReservationSystem
+  - dataStore: CSVDataStore
   - ReservationSystem()
   + getInstance(): ReservationSystem
   + registerUser(...): User
-  + reserveEquipment(...): Reservation
-  + modifyBooking(...): void
-  + cancelBooking(...): void
-  + extendBooking(...): void
+  + createReservation(...): Reservation
+  + modifyReservation(...): void
+  + cancelReservation(...): void
+  + extendReservation(...): void
   + processPayment(...): Payment
+  + addEquipment(...): Equipment
+  + updateEquipmentStatus(...): void
+  + applySensorUpdate(...): void
+  + autoGenerateLabManager(...): void
 }
 
 class CSVDataStore <<Singleton>> {
   - instance: CSVDataStore
+  - users: List<User>
+  - equipmentList: List<Equipment>
+  - reservations: List<Reservation>
+  - payments: List<Payment>
   - CSVDataStore()
   + getInstance(): CSVDataStore
-  + saveUser(user: User): void
-  + saveReservation(reservation: Reservation): void
-  + saveEquipment(equipment: Equipment): void
-  + savePayment(payment: Payment): void
-  + loadUsers(): List<User>
-  + loadReservations(): List<Reservation>
-  + loadEquipment(): List<Equipment>
 }
 
 ReservationSystem --> CSVDataStore : uses
