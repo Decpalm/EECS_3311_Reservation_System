@@ -75,8 +75,9 @@ javac -version
 git clone https://github.com/Decpalm/EECS_3311_Reservation_System
 ```
 
-### 2. Open in VS Code
-- File → Open Folder → select project
+### 2. Open in Eclipse
+- File → Import Project → Existing Projects into Workspace
+- Select root directory as \EECS_3311_Reservation_System\Reservation_System
 
 ### 3. Run the application
 Run:
