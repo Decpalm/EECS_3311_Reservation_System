@@ -599,7 +599,7 @@ public class MainFrame extends JFrame {
                 		labManagerEmailField.getText().trim());
                 outputArea.append("Lab Manager account successfully generated.\n");
             } catch (Exception ex) {
-                outputArea.append("Error updating equipment status: " + ex.getMessage() + "\n");
+                outputArea.append("Error generating Lab Manage account: " + ex.getMessage() + "\n");
             }
         });
         
