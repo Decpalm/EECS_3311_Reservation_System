@@ -102,13 +102,14 @@ public class Reservation {
         this.payment = payment;
     }
 
-    public long getDurationHours() {
-        long hours = Duration.between(startTime, endTime).toHours();
-        return Math.max(hours, 1);
+    public double getDurationHours() {
+        double hours = Duration.between(startTime, endTime).toHours();
+        double minutes = Duration.between(startTime, endTime).toMinutes();
+        return hours + ( (minutes-(hours*60)) / 60);
     }
 
     public void calculateTotalCost() {
-        long hours = getDurationHours();
+        double hours = getDurationHours();
         this.hourlyRate = pricingStrategy.calculateHourlyRate(user);
         this.depositAmount = pricingStrategy.calculateDeposit(user, hours);
         this.totalCost = pricingStrategy.calculateTotal(user, hours);
