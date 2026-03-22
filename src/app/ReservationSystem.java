@@ -286,6 +286,10 @@ public class ReservationSystem {
     	 if(user.getStatus().equals("INACTIVE")) {
          	throw new IllegalArgumentException("Account is inactive. Please get departmental approval. ");
          }
+    	 
+    	 if (dataStore.findUserByEmail(email) != null) {
+             throw new IllegalArgumentException("A user with this email already exists.");
+         }
     	
     	HeadLabCoordinator coordinator = (HeadLabCoordinator) user;
     	
