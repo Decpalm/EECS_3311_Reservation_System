@@ -1,0 +1,9 @@
+model.Student
+model.User
+model.Reservation
+model.Equipment
+model.Guest
+model.Faculty
+model.Researcher
+model.LabManager
+model.HeadLabCoordinator
