@@ -1,11 +1,2 @@
-/app/
-/command/
-/factory/
-/gui/
-/model/
-/module-info.class
-/observer/
-/persistence/
 /randoop/
-/state/
-/strategy/
+/ai_generated/
