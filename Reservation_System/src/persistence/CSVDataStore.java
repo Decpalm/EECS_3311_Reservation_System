@@ -24,13 +24,13 @@ import java.util.List;
 import java.util.UUID;
 
 public class CSVDataStore {
-    private static final CSVDataStore instance = new CSVDataStore();
+    private static CSVDataStore instance = new CSVDataStore();
 
-    private final String usersFile = "data/users.csv";
-    private final String equipmentFile = "data/equipment.csv";
-    private final String reservationsFile = "data/reservations.csv";
-    private final String paymentsFile = "data/payments.csv";
-
+    private String usersFile = "data/users.csv";
+    private String equipmentFile = "data/equipment.csv";
+    private String reservationsFile = "data/reservations.csv";
+    private String paymentsFile = "data/payments.csv";
+    
     private List<User> users;
     private List<Equipment> equipmentList;
     private List<Reservation> reservations;
@@ -45,6 +45,10 @@ public class CSVDataStore {
         this.loadEquipmentFromCSV();
         this.loadReservationsFromCSV();
         this.loadPaymentsFromCSV();
+    }
+    
+    public static void resetInstance() {
+        instance = new CSVDataStore();
     }
 
     public static CSVDataStore getInstance() {
@@ -356,5 +360,34 @@ public class CSVDataStore {
     	} catch (IOException e) {
     		System.out.println("Error writing users CSV: " + e.getMessage());
         }
+    }
+    
+    public void setFilePaths(String usersFile, String equipmentFile, String reservationsFile, String paymentsFile) {
+        this.usersFile = usersFile;
+        this.equipmentFile = equipmentFile;
+        this.reservationsFile = reservationsFile;
+        this.paymentsFile = paymentsFile;
+    }
+    
+    private void writeFile(String filePath, String content) {
+        try (java.io.FileWriter writer = new java.io.FileWriter(filePath, false)) {
+            writer.write(content);
+        } catch (java.io.IOException e) {
+            throw new RuntimeException("Failed to reset file: " + filePath, e);
+        }
+    }
+    
+    public void resetTestData() {
+        // Clear in-memory data FIRST
+        users.clear();
+        equipmentList.clear();
+        reservations.clear();
+        payments.clear();
+
+        // Reset CSV files
+        writeFile(usersFile, "userId,email,passwordHash,status,idOrCertNumber,role\n");
+        writeFile(equipmentFile, "equipmentId,description,labLocation,status\n");
+        writeFile(reservationsFile, "reservationId,userId,equipmentId,startTime,endTime,status,hourlyRate,depositAmount,totalCost\n");
+        writeFile(paymentsFile, "paymentId,amount,method,status,timestamp\n");
     }
 }

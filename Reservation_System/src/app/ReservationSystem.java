@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class ReservationSystem {
-    private static final ReservationSystem instance = new ReservationSystem();
+    private static  ReservationSystem instance = new ReservationSystem();
     
     private CSVDataStore dataStore;
 
@@ -24,6 +24,10 @@ public class ReservationSystem {
 
     public static ReservationSystem getInstance() {
         return instance;
+    }
+    
+    public static void resetInstance() {
+        instance = new ReservationSystem();
     }
 
     public User registerUser(String role, String email, String passwordHash, String idOrCertNumber) {
