@@ -1,16 +1,2 @@
-/ai_generated/
-/app/
-/command/
-/factory/
-/gui/
-/image/
-/manual/
-/model/
-/module-info.class
-/observer/
-/persistence/
 /randoop/
-/state/
-/strategy/
-/test_data/
-/app1/
+/manual/

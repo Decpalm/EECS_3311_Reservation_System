@@ -1,6 +1,7 @@
 package manual;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -11,6 +12,9 @@ import javax.swing.*;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -395,6 +399,37 @@ public class MainFrameTest {
         SwingUtilities.invokeAndWait(() -> {
             frame.dispose();
         });
+    }
+    
+    @AfterClass
+    public static void clearData() throws Exception {
+		try (BufferedWriter writer = new BufferedWriter(new FileWriter("data/users.csv"))) {
+            writer.write("userId,email,passwordHash,status,idOrCertNumber,role");
+            writer.newLine();
+		} catch (IOException e) {
+            System.out.println("Error writing users CSV: " + e.getMessage());
+        }
+		
+		try (BufferedWriter writer = new BufferedWriter(new FileWriter("data/equipment.csv"))) {
+            writer.write("equipmentId,description,labLocation,status");
+            writer.newLine();
+		} catch (IOException e) {
+            System.out.println("Error writing users CSV: " + e.getMessage());
+        }
+		
+		try (BufferedWriter writer = new BufferedWriter(new FileWriter("data/reservations.csv"))) {
+            writer.write("reservationId,userId,equipmentId,startTime,endTime,status,hourlyRate,depositAmount,totalCost");
+            writer.newLine();
+		} catch (IOException e) {
+            System.out.println("Error writing users CSV: " + e.getMessage());
+        }
+		
+		try (BufferedWriter writer = new BufferedWriter(new FileWriter("data/payments.csv"))) {
+            writer.write("paymentId,amount,method,status,timestamp");
+            writer.newLine();
+		} catch (IOException e) {
+            System.out.println("Error writing users CSV: " + e.getMessage());
+        }
     }
 
     
