@@ -20,8 +20,26 @@ import model.Payment;
 import model.Reservation;
 import model.User;
 import state.DisabledState;
+import org.junit.Before;
+import persistence.CSVDataStore;
 
 public class GUIControllerTest {
+	
+	@Before
+	public void setUp() {
+	    CSVDataStore.resetInstance();
+	    CSVDataStore dataStore = CSVDataStore.getInstance();
+
+	    dataStore.setFilePaths(
+	        "test_data/users_test.csv",
+	        "test_data/equipment_test.csv",
+	        "test_data/reservations_test.csv",
+	        "test_data/payments_test.csv"
+	    );
+
+	    dataStore.resetTestData();
+	    ReservationSystem.resetInstance();
+	}
 	
 	@Test
 	public void GUIControllerTest1(){
@@ -257,35 +275,4 @@ public class GUIControllerTest {
 		
 	}
 	
-	@AfterClass
-    public static void clearData() throws Exception {
-		try (BufferedWriter writer = new BufferedWriter(new FileWriter("data/users.csv"))) {
-            writer.write("userId,email,passwordHash,status,idOrCertNumber,role");
-            writer.newLine();
-		} catch (IOException e) {
-            System.out.println("Error writing users CSV: " + e.getMessage());
-        }
-		
-		try (BufferedWriter writer = new BufferedWriter(new FileWriter("data/equipment.csv"))) {
-            writer.write("equipmentId,description,labLocation,status");
-            writer.newLine();
-		} catch (IOException e) {
-            System.out.println("Error writing users CSV: " + e.getMessage());
-        }
-		
-		try (BufferedWriter writer = new BufferedWriter(new FileWriter("data/reservations.csv"))) {
-            writer.write("reservationId,userId,equipmentId,startTime,endTime,status,hourlyRate,depositAmount,totalCost");
-            writer.newLine();
-		} catch (IOException e) {
-            System.out.println("Error writing users CSV: " + e.getMessage());
-        }
-		
-		try (BufferedWriter writer = new BufferedWriter(new FileWriter("data/payments.csv"))) {
-            writer.write("paymentId,amount,method,status,timestamp");
-            writer.newLine();
-		} catch (IOException e) {
-            System.out.println("Error writing users CSV: " + e.getMessage());
-        }
-    }
-
 }
