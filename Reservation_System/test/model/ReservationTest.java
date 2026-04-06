@@ -13,11 +13,6 @@ import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * JUnit 5 tests for {@link Reservation}.
- *
- * @author sal1818
- */
 public class ReservationTest {
 
     private User student;

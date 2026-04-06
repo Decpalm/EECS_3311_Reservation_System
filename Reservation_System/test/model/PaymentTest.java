@@ -7,11 +7,6 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * JUnit 5 tests for {@link Payment}.
- *
- * @author sal1818
- */
 public class PaymentTest {
 
     @Test

@@ -4,11 +4,6 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * JUnit 5 tests for {@link Researcher}.
- *
- * @author sal1818
- */
 public class ResearcherTest {
 
     @Test
