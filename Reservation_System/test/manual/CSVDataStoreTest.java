@@ -1,8 +1,10 @@
-package persistence;
+package manual;
 
 import factory.AccountFactory;
 import factory.EquipmentFactory;
 import model.*;
+import persistence.CSVDataStore;
+
 import org.junit.jupiter.api.Test;
 import strategy.StudentPricingStrategy;
 

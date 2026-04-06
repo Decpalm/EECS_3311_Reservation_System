@@ -1,7 +1,9 @@
-package strategy;
+package manual;
 
 import factory.AccountFactory;
 import model.User;
+import strategy.StudentPricingStrategy;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -1,6 +1,8 @@
-package model;
+package manual;
 
 import org.junit.jupiter.api.Test;
+
+import model.SensorUpdate;
 
 import static org.junit.jupiter.api.Assertions.*;
 

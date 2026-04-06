@@ -1,3 +1,3 @@
 userId,email,passwordHash,status,idOrCertNumber,role
-d56cf4f2-d95c-4879-9dc3-bd8b36e623ee,labmanager@yorku.ca,Password123!,ACTIVE,LM001,LabManager
-8721685f-93cc-44ea-9d4f-d313c7572a30,student@yorku.ca,Password123!,ACTIVE,STU001,Student
+c25837bd-7701-4147-a6e4-75a1f0b0cda0,labmanager@yorku.ca,Password123!,ACTIVE,LM001,LabManager
+88773555-4756-4543-8903-1a3de1af9405,student@yorku.ca,Password123!,ACTIVE,STU001,Student

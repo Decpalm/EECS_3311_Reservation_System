@@ -1,7 +1,10 @@
-package model;
+package manual;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import model.Student;
+import model.User;
 
 import java.util.UUID;
 

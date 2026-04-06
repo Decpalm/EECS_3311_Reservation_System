@@ -1,6 +1,8 @@
-package model;
+package manual;
 
 import org.junit.jupiter.api.Test;
+
+import model.Researcher;
 
 import static org.junit.jupiter.api.Assertions.*;
 

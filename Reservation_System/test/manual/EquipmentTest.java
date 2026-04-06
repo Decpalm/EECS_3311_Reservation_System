@@ -1,7 +1,11 @@
-package model;
+package manual;
 
 import factory.AccountFactory;
 import factory.EquipmentFactory;
+import model.Equipment;
+import model.Reservation;
+import model.SensorUpdate;
+import model.User;
 import observer.EquipmentObserver;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -1,1 +1,14 @@
 equipmentId,description,labLocation,status
+1,1,1,Available
+2,2,2,Available
+3,3,3,Available
+4,4,4,Available
+5,5,5,Available
+6,6,6,Available
+7,7,7,Disabled
+8,8,8,Disabled
+20,20,20,Available
+EQ-MOD,Dev,L1,Available
+EQ-MOD,Dev,L1,Available
+EQ-MOD,Dev,L1,Available
+EQ-MOD,Dev,L1,Available

@@ -1,7 +1,12 @@
-package model;
+package manual;
 
 import factory.AccountFactory;
 import factory.EquipmentFactory;
+import model.Equipment;
+import model.Payment;
+import model.Reservation;
+import model.User;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import state.ConfirmedState;

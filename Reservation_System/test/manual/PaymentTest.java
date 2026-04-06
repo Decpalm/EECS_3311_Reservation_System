@@ -1,6 +1,8 @@
-package model;
+package manual;
 
 import org.junit.jupiter.api.Test;
+
+import model.Payment;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
