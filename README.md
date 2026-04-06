@@ -113,7 +113,7 @@ Persistence (CSVDataStore)
 - Use "View Data" tab to get reservation IDs  
 - Observer updates appear in console  
 - CSV files persist data between runs
-- Code Coverage Images are in Reseservation_System/test/image
+- Code Coverage Images are in Reservation_System/test/image
 
 ---
 
