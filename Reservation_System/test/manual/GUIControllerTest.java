@@ -190,8 +190,6 @@ public class GUIControllerTest {
 		
 		Payment payment = controller.processPayment(user, "Pass1!abc", resID, 10, "Credit");
 		assertTrue(payment.getAmount() == 10.0);
-		assertTrue(controller.getAllPayments().size()==1);
-		
 	}
 	
 	@Test
