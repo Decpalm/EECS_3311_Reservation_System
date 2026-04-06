@@ -8,11 +8,7 @@ import model.LabManager;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * JUnit 5 tests for {@link LabManager}.
- *
- * @author sal1818
- */
+
 public class LabManagerTest {
 
     private LabManager manager;

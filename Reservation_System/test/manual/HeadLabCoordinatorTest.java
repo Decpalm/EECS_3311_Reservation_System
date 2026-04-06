@@ -7,11 +7,6 @@ import model.LabManager;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * JUnit 5 tests for {@link HeadLabCoordinator}.
- *
- * @author sal1818
- */
 public class HeadLabCoordinatorTest {
 
     @Test

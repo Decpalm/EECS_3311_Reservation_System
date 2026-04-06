@@ -13,13 +13,7 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * JUnit 5 tests for {@link CSVDataStore}.
- * Tests use the singleton and persist to {@code data/*.csv}; run with working directory
- * {@code Reservation_System} so relative paths resolve.
- *
- * @author sal1818
- */
+
 public class CSVDataStoreTest {
 
     @Test

@@ -9,11 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * JUnit 5 tests for {@link FacultyPricingStrategy}.
- *
- * @author sal1818
- */
+
 public class FacultyPricingStrategyTest {
 
     private FacultyPricingStrategy strategy;

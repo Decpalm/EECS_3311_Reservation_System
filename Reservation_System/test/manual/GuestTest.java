@@ -6,11 +6,7 @@ import model.Guest;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * JUnit 5 tests for {@link Guest}.
- *
- * @author sal1818
- */
+
 public class GuestTest {
 
     @Test

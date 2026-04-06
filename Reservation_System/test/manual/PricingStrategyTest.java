@@ -9,12 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Contract tests for {@link PricingStrategy} using a local test double.
- * The interface has no implementation; behaviour is validated through this stub.
- *
- * @author sal1818
- */
+
 public class PricingStrategyTest {
 
     /** Minimal implementation used only to exercise the interface contract. */
