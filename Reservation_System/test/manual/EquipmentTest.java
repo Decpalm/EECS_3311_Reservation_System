@@ -16,11 +16,6 @@ import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * JUnit 5 tests for {@link Equipment}.
- *
- * @author sal1818
- */
 public class EquipmentTest {
 
     private Equipment equipment;

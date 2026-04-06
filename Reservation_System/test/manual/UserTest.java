@@ -10,11 +10,7 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * JUnit 5 tests for {@link User} behaviour through a concrete subclass ({@link Student}).
- *
- * @author sal1818
- */
+
 public class UserTest {
 
     private Student student;
