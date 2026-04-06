@@ -1,4 +1,4 @@
 userId,email,passwordHash,status,idOrCertNumber,role
-7807d83f-dfc6-431f-b5ea-f723617bc8a7,labmanager@yorku.ca,Password123!,ACTIVE,LM001,LabManager
-8b4593cc-b5b1-458b-a5f8-414a173dff0c,student@yorku.ca,Password123!,ACTIVE,STU001,Student
-50e51b90-2ce2-4a7d-a5f4-9585df074ef6,hlc2@yorku.ca,Password123!,ACTIVE,HLC002,HeadLabCoordinator
+5d1c4363-7d34-48ef-bb89-238e11fccc61,labmanager@yorku.ca,Password123!,ACTIVE,LM001,LabManager
+de325693-745a-4b5d-8899-16c087b596fa,student@yorku.ca,Password123!,ACTIVE,STU001,Student
+e4e9f04a-d196-4295-af5f-4b557168d74a,hlc2@yorku.ca,Password123!,ACTIVE,HLC002,HeadLabCoordinator
